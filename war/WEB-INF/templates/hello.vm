@@ -1,0 +1,5 @@
+<html>
+<body>
+Hello $name  (this is passed from the Servlet)
+</body>
+</html>
