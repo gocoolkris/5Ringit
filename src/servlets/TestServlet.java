@@ -1,15 +1,6 @@
 package servlets;
 
-//import java.io.IOException;
-//import javax.servlet.http.*;
-//
-//public class TestServlet extends HttpServlet {
-//    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-//            throws IOException {
-//        resp.setContentType("text/plain");
-//        resp.getWriter().println("Hello, world");
-//    }
-//}
+
 
 import org.apache.velocity.Template;
 import org.apache.velocity.servlet.VelocityServlet;
