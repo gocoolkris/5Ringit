@@ -24,8 +24,6 @@ public class TestServlet extends VelocityServlet {
 			posts.add(p);
 			posts.add(p2);
 			posts.add(p3);
-			
-			
 
 				Template template = null;
 				
@@ -39,7 +37,7 @@ public class TestServlet extends VelocityServlet {
 				
 				
 				} catch( Exception e ) {
-					System.err.println("Exception caught: " + e.getMessage());
+					 System.err.println("Exception caught: " + e.getMessage());
 				}
 				
 				return template;
