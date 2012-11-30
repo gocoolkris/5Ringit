@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>5RingIt</title>
+		<meta name="description" content="" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<style>
+			.entry {
+				margin-bottom: 20px;
+			}
+			.entry-meta {
+				color:\#999;
+				font-size: 80%;
+			}
+			.entry-title {
+				margin-bottom: 0;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		#if ($alertMessage)
+		<div class="alert">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<div id="alert-message">$alertMessage</div>
+		</div>
+		#end
+		#if(! $userName)
+		<div id="dialog-login" class="modal hide fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3>Log in</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" name="form-login" action="/login" method="post">
+					<div class="control-group">
+						<label class="control-label" for="inputUsername">Username</label>
+						<div class="controls">
+							<input type="text" id="inputUsername" placeholder="User Name">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">Password</label>
+						<div class="controls">
+							<input type="password" id="inputPassword" placeholder="Password">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-info">Log in</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div id="dialog-signup" class="modal hide fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3>Sign up</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" name="form-signup" action="/signup" method="post">
+					<div class="control-group">
+						<label class="control-label" for="inputUsername">Username</label>
+						<div class="controls">
+							<input type="text" id="inputUsername" placeholder="User Name">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">Password</label>
+						<div class="controls">
+							<input type="password" id="inputPassword" placeholder="Password">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputRepeatPassword">Repeat password</label>
+						<div class="controls">
+							<input type="password" id="inputRepeatPassword" placeholder="Repeat password">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-info">Sign up</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		#end
+		<div class="container">
+			<div class="page-header">
+					<div class="pull-right" style="line-height:40px;">
+						#if (! $userName)
+						<a href="\#dialog-login" role="button" data-toggle="modal" class="btn btn-info">Log in</a> or <a href="\#dialog-signup" role="button" data-toggle="modal" class="btn btn-info">Sign up</a>
+						#else
+						Welcome, <a href="/user/$userName">$userName</a>! <a href="/logout">Log out</a>
+						#end
+					</div>
+					<div class="">
+          				<h1><a href="/">5RingIt</a></h1>
+          			</div>
+        	</div>
