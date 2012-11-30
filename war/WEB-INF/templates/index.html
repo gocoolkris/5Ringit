@@ -31,7 +31,7 @@
 				</div>
 
 				<div id="side-bar" class="span4">
-					#if($userName)
+					#if($currentUser)
 					<ul class="nav nav-tabs">
 						<li class="active">
 							<a href="">Submit a link</a>
@@ -51,11 +51,6 @@
 							<a href="">Recommended Users</a>
 						</li>
 					</ul>
-					<ul class="unstyled">
-						#foreach( $user in $recommendedUsers)
-						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
-						#end
-					</ul>
 					#else
 					<ul class="nav nav-tabs">
 						<li class="active">
@@ -63,7 +58,7 @@
 						</li>
 					</ul>
 					<ul class="unstyled">
-						#foreach( $user in $newUsers)
+						#foreach( $user in $userList)
 						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
 						#end
 					</ul>

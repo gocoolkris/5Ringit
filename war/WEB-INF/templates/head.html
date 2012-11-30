@@ -39,7 +39,7 @@
 			<div id="alert-message">$alertMessage</div>
 		</div>
 		#end
-		#if(! $userName)
+		#if(! $currentUser)
 		<div id="dialog-login" class="modal hide fade">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -105,10 +105,10 @@
 		<div class="container">
 			<div class="page-header">
 					<div class="pull-right" style="line-height:40px;">
-						#if (! $userName)
+						#if (! $currentUser)
 						<a href="\#dialog-login" role="button" data-toggle="modal" class="btn btn-info">Log in</a> or <a href="\#dialog-signup" role="button" data-toggle="modal" class="btn btn-info">Sign up</a>
 						#else
-						Welcome, <a href="/user/$userName">$userName</a>! <a href="/logout">Log out</a>
+						Welcome, <a href="/user/$currentUser">$currentUser</a>! <a href="/logout">Log out</a>
 						#end
 					</div>
 					<div class="">
