@@ -11,9 +11,9 @@
 					</ul>
 					#foreach( $entry in $entries )
 					<div class="entry">
-						<h4 class="entry-title"><a href="$entry.getUrl()">$entry.getTitle()</a></h4>
+						<h4 class="entry-title"><a href="$entry.getLink()">$entry.getTitle()</a></h4>
 						<div class="entry-body">
-							$entry.getDescription()
+							$entry.getDesc()
 						</div>
 						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry/$entry.getId()\#comment">Comment</a> ($entry.getCommentCount()) · <a href="\#">Like</a> ($entry.getLikeCount())</div>
 					</div>
