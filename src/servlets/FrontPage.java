@@ -33,7 +33,7 @@ public class FrontPage extends VelocityServlet {
 					context.put("posts", posts);
 					//context.put("des", p.getDesc());
 					//p.getDesc();
-					template = Velocity.getTemplate("index_latest.html");
+					template = Velocity.getTemplate("index.html");
 				
 				
 				} catch( Exception e ) {
