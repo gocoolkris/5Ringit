@@ -1,0 +1,64 @@
+#parse( "head.html" )
+			<div class="row" style="margin-bottom:20px;">
+        		<div class="span12">
+        			<h3 class="pull-left">$userName</h3>
+        			<div class="pull-left" style="margin-left:20px;line-height:60px;">
+        				#if ($currentUser)
+        					#if ($currentUser == $userName)
+        					<small>This is you.</small>
+        					#else
+	        					#if ($followed)
+	        					<a href="\#" class="btn btn-small btn-info">Unfollow</a>
+	        					#else
+	        					<a href="\#" class="btn btn-small btn-info">Follow</a>
+	        					#end
+	        				#end
+        				#end
+        			</div>
+        		</div>
+        		
+        	</div>
+			<div class="row">
+				<div id="entry-list" class="span8">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">Submitted Links</a>
+						</li>
+					</ul>
+					#foreach( $entry in $entries )
+					<div class="entry">
+						<h4 class="entry-title"><a href="$entry.getLink()">$entry.getTitle()</a></h4>
+						<div class="entry-body">
+							$entry.getDesc()
+						</div>
+						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry/$entry.getId()\#comment">Comment</a> ($entry.getCommentCount()) · <a href="\#">Like</a> ($entry.getLikeCount())</div>
+					</div>
+					#end
+					<div class="pagination">
+						<ul>
+							#set( $prevPage = $currentPage - 1 )
+							#set( $nextPage = $currentPage + 1 )
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage#end">«</a></li>
+							#foreach( $page in $pages )
+							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
+							#end
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage#end">»</a></li>
+							
+						</ul>
+					</div>
+				</div>
+
+				<div id="side-bar" class="span4">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">Following</a>
+						</li>
+					</ul>
+					<ul class="unstyled">
+						#foreach( $user in $followingList)
+						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
+						#end
+					</ul>
+				</div>
+			</div>
+#parse( "tail.html" )
