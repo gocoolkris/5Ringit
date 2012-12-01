@@ -1,5 +1,16 @@
 <html>
 <body>
-Hello $name  (this is passed from the Servlet)
+#foreach( $post in $posts )
+      <tr>
+        <td>
+           $post.getTitle()
+        </td>
+      </tr>
+      <tr>
+        <td>
+           $post.getDesc()
+        </td>
+      </tr>
+#end
 </body>
 </html>
