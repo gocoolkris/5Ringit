@@ -3,10 +3,10 @@
 				<div id="entry-list" class="span8">
 					<ul class="nav nav-tabs">
 						<li class="#if ($order == "latest")active#end">
-							<a href="/">Latest</a>
+							<a href="/index">Latest</a>
 						</li>
 						<li class="#if ($order == "popular")active#end">
-							<a href="/popular">Popular</a>
+							<a href="/index?order=popular">Popular</a>
 						</li>
 					</ul>
 					#foreach( $entry in $entries )
