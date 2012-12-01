@@ -22,11 +22,11 @@
 						<ul>
 							#set( $prevPage = $currentPage - 1 )
 							#set( $nextPage = $currentPage + 1 )
-							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)./page/$prevPage#end">«</a></li>
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage#end">«</a></li>
 							#foreach( $page in $pages )
-							<li class="#if ($page == $currentPage)active#end"><a href="./page/$page">$page</a></li>
+							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
 							#end
-							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)./page/$nextPage#end">»</a></li>
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage#end">»</a></li>
 							
 						</ul>
 					</div>
