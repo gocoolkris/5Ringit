@@ -16,6 +16,9 @@ public class FrontPage extends VelocityServlet {
 	   public Template handleRequest( HttpServletRequest request,
                HttpServletResponse response,
                Context context ) {
+	 public Template handleRequest( HttpServletRequest request,
+           HttpServletResponse response,
+            	Context context ) {
 		   
 		   int numPostsPerPage = 5;
 		    Post p=new Post("2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics","david");
@@ -36,6 +39,19 @@ public class FrontPage extends VelocityServlet {
 			p3.setPostedTime();
 			
 			int totalPages = posts.size()/numPostsPerPage;
+		   
+		   Post[] posts = new Post[11];
+		   
+		   for (int i=0; i<posts.length; i++) {
+			   Post p = new Post("2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics","david");
+			   p.setId(1);
+			   p.setLikeCount(1);
+			   p.setCommentCount(1);
+			   p.setPostedTime();
+			   posts[i] = p;
+		   }
+
+			int totalPages = posts.length/numPostsPerPage;
 
 
 				Template template = null;
