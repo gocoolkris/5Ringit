@@ -31,6 +31,8 @@ public class FrontPage extends VelocityServlet {
 						
 					
 					context.put("posts", posts);
+					context.put("alertMessage", "psw invalid");
+
 					//context.put("des", p.getDesc());
 					//p.getDesc();
 					template = Velocity.getTemplate("index.html");

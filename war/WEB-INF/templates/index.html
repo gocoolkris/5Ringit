@@ -25,7 +25,9 @@
 							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)./page/$prevPage#end">«</a></li>
 							#foreach( $page in $pages )
 							<li class="#if ($page == $currentPage)active#end"><a href="./page/$page">$page</a></li>
+							#end
 							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)./page/$nextPage#end">»</a></li>
+							
 						</ul>
 					</div>
 				</div>
@@ -57,12 +59,14 @@
 							<a href="">New Users</a>
 						</li>
 					</ul>
+					#end
+					
 					<ul class="unstyled">
 						#foreach( $user in $userList)
 						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
 						#end
 					</ul>
-					#end
+					
 
 				</div>
 			</div>
