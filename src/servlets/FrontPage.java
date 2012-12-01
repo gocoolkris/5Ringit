@@ -17,6 +17,7 @@ public class FrontPage extends VelocityServlet {
                HttpServletResponse response,
                Context context ) {
 		   
+		   int numPostsPerPage = 5;
 		    Post p=new Post("2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics","david");
 			Post p2=new Post("2012 summer olympic"," hello world","http://en.wikipedia.org/wiki/2012_Summer_Olympics", "gokul");
 			Post p3=new Post("2016 summer olympic","foo bar","http://en.wikipedia.org/wiki/2016_Summer_Olympics", "yang");
@@ -33,6 +34,8 @@ public class FrontPage extends VelocityServlet {
 			p.setPostedTime();
 			p2.setPostedTime();
 			p3.setPostedTime();
+			
+			int totalPages = posts.size()/numPostsPerPage;
 
 
 				Template template = null;
@@ -43,6 +46,8 @@ public class FrontPage extends VelocityServlet {
 					context.put("entries", posts);
 					//context.put("alertMessage", "psw invalid");
 					context.put("order", "latest");
+					context.put("currentPage", 1);
+					context.put("totalPages", totalPages);
 					
 					//context.put("des", p.getDesc());
 					//p.getDesc();
