@@ -10,7 +10,7 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 import javax.servlet.http.*;
 
-public class TestServlet extends VelocityServlet {
+public class FrontPage extends VelocityServlet {
 
 	   public Template handleRequest( HttpServletRequest request,
                HttpServletResponse response,
@@ -33,7 +33,7 @@ public class TestServlet extends VelocityServlet {
 					context.put("posts", posts);
 					//context.put("des", p.getDesc());
 					//p.getDesc();
-					template = Velocity.getTemplate("hello.vm");
+					template = Velocity.getTemplate("index_latest.html");
 				
 				
 				} catch( Exception e ) {
