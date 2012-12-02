@@ -19,15 +19,15 @@ public class Post implements Serializable{
 		this.desc=desc;
 		this.link=url;
 		this.author = author;
-		this.commentCount = 0;
-		this.likeCount = 0;
 
 	}
+	
 	/**
 	 * returns the number of days from now to postedTime
 	 * @return
 	 */
 	public long getRalativePostedTime() {
+		
 		
 		Date date = new Date();
 		long now = date.getTime();
@@ -35,6 +35,7 @@ public class Post implements Serializable{
 		return relativeTime/1000/3600;
 		
 	}
+	
 	/**
 	 * set the postedTime by now
 	 */
