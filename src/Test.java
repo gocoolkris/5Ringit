@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 import db.DBUtil;
 
-import object.Post;
+import databaseobject.Post;
 import service.PostService;
 
 

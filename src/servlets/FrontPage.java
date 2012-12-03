@@ -3,13 +3,17 @@ package servlets;
 import java.util.ArrayList;
 import java.util.Date;
 
-import object.Post;
+import databaseobject.Post;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
+
+import service.PostService;
+
 import javax.servlet.http.*;
+import frontEndObject.Entry;
 
 public class FrontPage extends VelocityServlet {
 
@@ -19,10 +23,15 @@ public class FrontPage extends VelocityServlet {
 		   
 		   int numPostsPerPage = 5;
 		   
+		   PostService postService = new PostService();
+		   
 		   Post[] posts = new Post[11];
 		   
+		   
+		   Entry[] entries = new Entry[10];
+		   
 		   for (int i=0; i<posts.length; i++) {
-			   Post p = new Post("2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics","david");
+			   Post p = new Post(i, "2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics");
 			   p.setId(1);
 			   p.setLikeCount(1);
 			   p.setCommentCount(1);
