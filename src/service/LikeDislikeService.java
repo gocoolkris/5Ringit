@@ -40,9 +40,9 @@ public class LikeDislikeService {
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
 				PostLike postlike=new PostLike();
-				postlike.setTimestamp(set.getTimestamp("time"));
-				postlike.setUserid(set.getInt("usrid"));
-				postlike.setpid(set.getInt("pid"));
+//				postlike.setTimestamp(set.getTimestamp("time"));
+//				postlike.setUserid(set.getInt("usrid"));
+//				postlike.setpid(set.getInt("pid"));
 				list.add(postlike);
 			}
 		}catch(Exception ex){
@@ -59,9 +59,9 @@ public class LikeDislikeService {
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
 				PostDisLike postdislike=new PostDisLike();
-				postdislike.setTimestamp(set.getTimestamp("time"));
-				postdislike.setUserid(set.getInt("usrid"));
-				postdislike.setpid(set.getInt("pid"));
+//				postdislike.setTimestamp(set.getTimestamp("time"));
+//				postdislike.setUserid(set.getInt("usrid"));
+//				postdislike.setpid(set.getInt("pid"));
 				list.add(postdislike);
 			}
 		}catch(Exception ex){

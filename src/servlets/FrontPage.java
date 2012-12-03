@@ -53,7 +53,7 @@ public class FrontPage extends VelocityServlet {
 					context.put("currentPage", 1);
 					context.put("totalPages", totalPages);
 					
-					template = Velocity.getTemplate("index.html");
+					template = Velocity.getTemplate("index.vm");
 				
 				
 				} catch( Exception e ) {

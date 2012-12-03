@@ -11,9 +11,9 @@ public class Test {
 	{
 		DBUtil.getConnection();
 		PostService ps=new PostService();
-		Post p=new Post("2008 summer olympic"," ","http://en.wikipedia.org/wiki/2008_Summer_Olympics", "david");
-		Post p2=new Post("2012 summer olympic"," ","http://en.wikipedia.org/wiki/2012_Summer_Olympics", "gokul");
-		Post p3=new Post("2016 summer olympic"," ","http://en.wikipedia.org/wiki/2016_Summer_Olympics", "yang");
+		Post p=new Post("2008 summer olympic"," ","http://en.wikipedia.org/wiki/2008_Summer_Olympics");
+		Post p2=new Post("2012 summer olympic"," ","http://en.wikipedia.org/wiki/2012_Summer_Olympics");
+		Post p3=new Post("2016 summer olympic"," ","http://en.wikipedia.org/wiki/2016_Summer_Olympics");
 		ps.save(p);
 		ps.save(p2);
 		ps.save(p3);
