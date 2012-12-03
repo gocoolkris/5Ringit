@@ -31,11 +31,11 @@ public class FrontPage extends VelocityServlet {
 		   Entry[] entries = new Entry[10];
 		   
 		   for (int i=0; i<posts.length; i++) {
-			   Post p = new Post(i, "2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics");
+			   Post p = new Post("2008 summer olympic"," description1","http://en.wikipedia.org/wiki/2008_Summer_Olympics");
 			   p.setId(1);
-			   p.setLikeCount(1);
-			   p.setCommentCount(1);
-			   p.setPostedTime();
+//			   p.setLikeCount(1);
+//			   p.setCommentCount(1);
+//			   p.setPostedTime();
 			   posts[i] = p;
 		   }
 
