@@ -9,5 +9,14 @@ public class UserService {
 	public ArrayList<User> getNewUsers(int num){
 		return null;
 	}
+	
+	public boolean saveNewUser(String username, String password) {
+		return true;
+	}
+	
+	public User login(String username, String password) {
+		
+		return null;
+	}
 
 }

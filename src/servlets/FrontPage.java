@@ -25,6 +25,12 @@ public class FrontPage extends VelocityServlet {
 	 public Template handleRequest( HttpServletRequest request,
            HttpServletResponse response,
             	Context context ) {
+		 HttpSession session = request.getSession();
+		 String currentUser = null;
+		 
+		 if(!session.isNew()) {
+			 currentUser= (String) session.getAttribute(("username"));
+		 }
 		 
 		 int pageNum = 1;
 		 if(request.getParameter("page")!=null) {
@@ -88,7 +94,7 @@ public class FrontPage extends VelocityServlet {
 				context.put("currentPage", pageNum);
 				context.put("totalPages", totalNumOfPages);
 				context.put("pages", pages);
-				context.put("currentUser", "david");
+				context.put("currentUser", currentUser);
 				context.put("userList", userList);
 				template = Velocity.getTemplate("index.html");
 				
