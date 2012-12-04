@@ -13,9 +13,9 @@ public class Entry {
 	private int commentCount;
 	private int likeCount;
 
-	public Entry(int id, String title,String desc,String url,String author,long postedTime, 
+	public Entry(String title,String desc,String url,String author,long postedTime, 
 			int commentCount, int likeCount){
-		this.id = id;
+		//this.id = id;
 		this.title=title;
 		this.desc=desc;
 		this.link=url;

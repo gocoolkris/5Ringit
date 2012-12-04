@@ -11,15 +11,17 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
 import service.PostService;
+import service.UserService;
 
 import javax.servlet.http.*;
 import frontEndObject.Entry;
+import databaseobject.User;
 
 public class FrontPage extends VelocityServlet {
 	
 	 private final int numPostsPerPage = 10;
 	 private final int totalPosts = 100;
-
+	 private final int userListNum = 10;
 	 public Template handleRequest( HttpServletRequest request,
            HttpServletResponse response,
             	Context context ) {
@@ -46,7 +48,8 @@ public class FrontPage extends VelocityServlet {
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
-			   Entry e = new Entry(i, "2008 summer olympic"," description1_" + i,"http://en.wikipedia.org/wiki/2008_Summer_Olympics", "david", tmp.getTime(), 1, 1);
+			   Entry e = new Entry("2008 summer olympic"," description1_" + i,"http://en.wikipedia.org/wiki/2008_Summer_Olympics", "david", tmp.getTime(), 1, 1);
+			   e.setId(i);
 			   entries.add(e);
 		   }
 		 //end
@@ -61,7 +64,19 @@ public class FrontPage extends VelocityServlet {
 		for(int i=1; i<=totalNumOfPages; i++) {
 			pages[i-1] = i;
 		}
-
+		
+		/**
+		UserService userService = new UserService();
+		ArrayList<User> userList = userService.getNewUsers(userListNum);
+		*/
+		
+		//creating fake userList;
+		ArrayList<User> userList = new ArrayList <User> ();
+		for(int i=0; i<userListNum; i++) {
+			userList.add(new User("david", "david"));
+		}
+		//end
+		
 		Template template = null;
 				
 		try {
@@ -73,7 +88,8 @@ public class FrontPage extends VelocityServlet {
 				context.put("currentPage", pageNum);
 				context.put("totalPages", totalNumOfPages);
 				context.put("pages", pages);
-					
+				context.put("currentUser", "david");
+				context.put("userList", userList);
 				template = Velocity.getTemplate("index.html");
 				
 				
