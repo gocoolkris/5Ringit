@@ -141,6 +141,10 @@ public class PostService {
 		return list;
 	}
 	
+	public User getUserByPost(Post post){
+		return us.getUserbyusrid(post.getUsrid());
+	}
+	
 	public int  updateScore(Post post)
 	{
 		double newscore=calScore(post.getLikecount(),post.getDisLikecount(),post.getTime());
@@ -167,11 +171,13 @@ public class PostService {
 	}
 	static Timestamp START_TIME=null;
 	static int time_ratio=45000;
+	UserService us;
 	public PostService() throws ParseException
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = dateFormat.parse("01/01/2012");
 		long start_time = date.getTime();
 		START_TIME=new Timestamp(start_time);
+		us=new UserService();
 	}
 }

@@ -26,5 +26,10 @@ public class UserService {
 	public ArrayList<User> getFollowingList(String username){
 		return null;
 	}
+	
+public User getUserbyusrid(int usrid) {
+		
+		return null;
+	}
 
 }
