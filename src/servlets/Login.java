@@ -30,14 +30,16 @@ public class Login extends HttpServlet  {
 		User passedUser = new User(psw, username);
 		//end
 		
+		HttpSession session = request.getSession();
+
 		if(passedUser!=null) {
-			HttpSession session = request.getSession();
 			System.out.println("logged in:"+passedUser.getUsername());
 			session.setAttribute("username", passedUser.getUsername());
 			response.sendRedirect("/index");
 				
 		}else {
 			System.out.println("login failed");
+			session.setAttribute("login", "fail");
 			response.sendRedirect("/index");
 		}
 		

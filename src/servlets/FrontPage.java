@@ -25,11 +25,21 @@ public class FrontPage extends VelocityServlet {
 	 public Template handleRequest( HttpServletRequest request,
            HttpServletResponse response,
             	Context context ) {
+		 
+		 String order = request.getParameter("order");
+		 String loginSuccess = request.getParameter("login");
+		 
+		 String alertMessage = null;
+		 if(loginSuccess!=null && loginSuccess.equals("fail")) {
+			 alertMessage = "Wrong password or username. Please try again";
+		 }
+		 
 		 HttpSession session = request.getSession();
 		 String currentUser = null;
 		 
-		 if(!session.isNew()) {
-			 currentUser= (String) session.getAttribute(("username"));
+		 if(!session.isNew() && session.getAttribute("username")!=null) {
+			 currentUser = (String) session.getAttribute(("username"));
+			 alertMessage = "Welcome back " + currentUser;
 		 }
 		 
 		 int pageNum = 1;
@@ -43,14 +53,25 @@ public class FrontPage extends VelocityServlet {
 		 
 		 		   		   
 		   /**
+		   ArrayList<Post> posts;
 		   PostService postService = new PostService();
-		   ArrayList<Post> posts = postService.getPostRankbyTime(totalPosts);
+		   if(order!=null && order.equals("popular")) {
+			   	if(currentUser!=null){
+			   		UserService userService = new UserService();
+			   		User user = userService.getUser(currentUser);
+			   		posts = postService.getPostRankbyScoreforUser(totalPosts, user);
+			   	}else {
+			   		posts = postService.getPostRankbyScore(totalPosts);
+			   	}
+		   }else{
+			   posts = postService.getPostRankbyTime(totalPosts);
+		   }
 		   */
-		   
-		 ArrayList<Post> posts = new ArrayList<Post>();
-		
+			   
+
 		 
 		 //create fake entries object
+		 ArrayList<Post> posts = new ArrayList<Post>();
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
@@ -96,6 +117,7 @@ public class FrontPage extends VelocityServlet {
 				context.put("pages", pages);
 				context.put("currentUser", currentUser);
 				context.put("userList", userList);
+				context.put("alertMessage", alertMessage);
 				template = Velocity.getTemplate("index.html");
 				
 				
