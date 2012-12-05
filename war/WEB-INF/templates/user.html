@@ -8,9 +8,9 @@
         					<small>This is you.</small>
         					#else
 	        					#if ($followed)
-	        					<a href="\#" class="btn btn-small btn-info">Unfollow</a>
+	        					<a href="/follow?follow=false&object=$userName" class="btn btn-small btn-info">Unfollow</a>
 	        					#else
-	        					<a href="\#" class="btn btn-small btn-info">Follow</a>
+	        					<a href="/follow?follow=true&object=$userName" class="btn btn-small btn-info">Follow</a>
 	        					#end
 	        				#end
         				#end
