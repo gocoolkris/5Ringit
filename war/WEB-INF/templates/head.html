@@ -108,7 +108,7 @@
 						#if (! $currentUser)
 						<a href="\#dialog-login" role="button" data-toggle="modal" class="btn btn-info">Log in</a> or <a href="\#dialog-signup" role="button" data-toggle="modal" class="btn btn-info">Sign up</a>
 						#else
-						Welcome, <a href="/user/$currentUser">$currentUser</a>! <a href="/logout">Log out</a>
+						Welcome, <a href="/user?username=$currentUser">$currentUser</a>! <a href="/logout">Log out</a>
 						#end
 					</div>
 					<div class="">
