@@ -3,15 +3,10 @@ package servlets;
 import java.util.ArrayList;
 import java.util.Date;
 
-import databaseobject.Post;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
-
-import service.PostService;
-import service.UserService;
 
 import javax.servlet.http.*;
 import frontEndObject.Entry;
@@ -43,6 +38,12 @@ public class Profile extends VelocityServlet {
 			 currentUser = (String)session.getAttribute("username"); 
 		 }
 		 
+		 /**
+		  * PostService postService = new PostService();
+		  * ArrayList<Post> entries = postService.getPostsByUsername(String username);
+		  * ArrayList<entry> entries = ...
+		  */
+		 
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
@@ -66,19 +67,25 @@ public class Profile extends VelocityServlet {
 			pages[i-1] = i;
 		}
 		
+		/**
+		 * UserService userService = new UserService();
+		 * ArrayList<User> followingList = userService. getFollowingList(String username);
+		 * 
+		 */
+		
+		//faking followingList
 		ArrayList<User> followingList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
 			User followed = new User("Estrella", "Estrella");
 			followingList.add(followed);
 		}
-		 
-		 
-		 
+		//end
+
+		
 		 	Template template = null;
 			
 			try {
 							
-						
 					context.put("userName", userName);
 					context.put("currentUser", currentUser);
 					context.put("followed", "true");

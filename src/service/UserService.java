@@ -22,5 +22,9 @@ public class UserService {
 	public User getUser(String username) {
 		return null;
 	}
+	
+	public ArrayList<User> getFollowingList(String username){
+		return null;
+	}
 
 }

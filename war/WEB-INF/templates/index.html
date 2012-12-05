@@ -63,7 +63,7 @@
 					
 					<ul class="unstyled">
 						#foreach( $user in $userList)
-						<li><i class="icon-user"></i> <a href="/user/username=$user.getUsername()">$user.getUsername()</a></li>
+						<li><i class="icon-user"></i> <a href="/user?username=$user.getUsername()">$user.getUsername()</a></li>
 						#end
 					</ul>
 				

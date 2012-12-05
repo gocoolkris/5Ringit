@@ -23,12 +23,14 @@
 					</div>
 					#end
 					<div class="well">
+						#if($currentUser)
 						<!-- <legend>Submit a link</legend> -->
 						<form name="form-newcomment" action="/newcomment" method="post" style="margin-bottom: 0;">
 							<input name="session-id" type="hidden" value="#!sessionId">
 							<textarea class="input-block-level" rows="3" placeholder="Comment" style="resize:vertical;"></textarea>
 							<button type="submit" class="btn btn-info">Post new comment</button>
 						</form>
+						#end
 					</div>
 				</div>
 
