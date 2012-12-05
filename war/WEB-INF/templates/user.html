@@ -59,6 +59,16 @@
 						<li><i class="icon-user"></i> <a href="/user?username=$user.getUsername()">$user.getUsername()</a></li>
 						#end
 					</ul>
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">Follower</a>
+						</li>
+					</ul>
+					<ul class="unstyled">
+						#foreach( $user in $followerList)
+						<li><i class="icon-user"></i> <a href="/user?username=$user.getUsername()">$user.getUsername()</a></li>
+						#end
+					</ul>
 				</div>
 			</div>
 #parse( "tail.html" )
