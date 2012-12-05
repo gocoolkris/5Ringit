@@ -1,5 +1,6 @@
 package servlets;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +11,11 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.servlet.VelocityServlet;
 
+import service.PostService;
+
 import databaseobject.Post;
 import databaseobject.User;
 import frontEndObject.Entry;
-
-import service.PublishService;
 
 public class PublishPost extends VelocityServlet{
 	
@@ -29,20 +30,23 @@ public class PublishPost extends VelocityServlet{
 				String newEntryTitle = request.getParameter("new-entry-title");
 				String newEntryUrl =  request.getParameter("new-entry-url");
 				String newPostDescription = request.getParameter("new-post-description");
+				int userID = 1;
 				
-				Post newPost = new Post(newEntryTitle, newPostDescription, newEntryUrl);
+				Date now = new Date();
+				Timestamp timestamp = new Timestamp(now.getTime());
+				
+				Post newPost = new Post(userID, newEntryTitle, newPostDescription, newEntryUrl, timestamp);
 							
 				User tmp= new User("david", "david");
 				
-				Date now = new Date();
 				long currentTime = now.getTime();
 				Entry newEntry = new Entry(newEntryTitle, newPostDescription, newEntryUrl, 
 						tmp.getUsername(), currentTime, 0, 0);
 				
-				PublishService publishService = new PublishService();
+				PostService postService = new PostService();
 				
 				/**
-				publishService.save(newPost, tmp);
+				postService.save(newPost, tmp);
 				*/
 				System.out.println(newEntryTitle + " saved");
 				
