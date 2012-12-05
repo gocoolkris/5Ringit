@@ -21,10 +21,29 @@
 			<div class="row">
 				<div id="entry-list" class="span8">
 					<ul class="nav nav-tabs">
-						<li class="active">
-							<a href="">Submitted Links</a>
+						<li class="#if ($mode == "posts")active#end">
+							<a href=".">Submitted Links</a>
+						</li>
+						<li class="#if ($mode == "likes")active#end">
+							<a href="?mode=likes">Likes</a>
+						</li>
+						<li class="#if ($mode == "dislikes")active#end">
+							<a href="?mode=dislikes">Dislikes</a>
+						</li>
+						<li class="#if ($mode == "comments")active#end">
+							<a href="?mode=comments">Comments</a>
 						</li>
 					</ul>
+					#if($mode == "comments")
+					#foreach( $comment in $comments )
+					<div class="entry">
+						<div class="entry-body">
+							$comment.getContent()
+						</div>
+						<div class="entry-meta">in <a href="/entry?postID=$comment.getPostID()">$comment.getPostTitle()</a> $comment.getRalativePostedTime()</div>
+					</div>
+					#end
+					#else
 					#foreach( $entry in $entries )
 					<div class="entry">
 						<h4 class="entry-title"><a href="$entry.getLink()">$entry.getTitle()</a></h4>
@@ -33,6 +52,7 @@
 						</div>
 						<div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry?postID=$entry.getId()">Comment</a> ($entry.getCommentCount()) · #if($currentUser)#if($entry.isLiked())Liked#else<a href="\#">Like</a>#end#elseLike#end ($entry.getLikeCount()) · #if($currentUser)#if($entryIsDisliked())Disliked#else<a href="\#">Dislike</a>#end#elseDislike#end ($entry.getDislikeCount())</div>
 					</div>
+					#end
 					#end
 					<div class="pagination">
 						<ul>
