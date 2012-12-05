@@ -71,7 +71,7 @@ public class FrontPage extends VelocityServlet {
 
 		 
 		 //create fake entries object
-		 ArrayList<Post> posts = new ArrayList<Post>();
+		 //ArrayList<Post> posts = new ArrayList<Post>();
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {

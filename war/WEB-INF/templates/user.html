@@ -31,18 +31,18 @@
 						<div class="entry-body">
 							$entry.getDesc()
 						</div>
-						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry/$entry.getId()\#comment">Comment</a> ($entry.getCommentCount()) · <a href="\#">Like</a> ($entry.getLikeCount())</div>
+						<div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry/$entry.getId()\#comment">Comment</a> ($entry.getCommentCount()) · <a href="\#">Like</a> ($entry.getLikeCount())</div>
 					</div>
 					#end
 					<div class="pagination">
 						<ul>
 							#set( $prevPage = $currentPage - 1 )
 							#set( $nextPage = $currentPage + 1 )
-							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage#end">«</a></li>
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage&username=$userName#end">«</a></li>
 							#foreach( $page in $pages )
-							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
+							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page&username=$userName">$page</a></li>
 							#end
-							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage#end">»</a></li>
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage&username=$userName#end">»</a></li>
 							
 						</ul>
 					</div>
@@ -56,7 +56,7 @@
 					</ul>
 					<ul class="unstyled">
 						#foreach( $user in $followingList)
-						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
+						<li><i class="icon-user"></i> <a href="/user?username=$user.getUsername()">$user.getUsername()</a></li>
 						#end
 					</ul>
 				</div>
