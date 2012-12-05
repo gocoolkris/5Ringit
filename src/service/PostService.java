@@ -1,134 +1,13 @@
-//package service;
-//
-//import java.sql.ResultSet;
-//import java.util.ArrayList;
-//
-//import object.Post;
-//import object.User;
-//
-//import db.DBUtil;
-//
-//public class PostService {
-//	public int save(Post post){
-//		StringBuffer sql=new StringBuffer();
-//		sql.append("insert into post(pid,title,description,link)");
-//		int newpid=DBUtil.getPostMaxId()+1;
-//		sql.append("values("+newpid);
-//		sql.append(",'"+post.getTitle()+"',");
-//		sql.append("'"+post.getDesc()+"',");
-//		sql.append("'"+post.getLink()+"')");
-//		return DBUtil.executeUpdateInsertDelete(sql.toString());
-//	}
-//	
-//	
-//	public int delete(Post post){
-//		StringBuffer sql=new StringBuffer();
-//		sql.append("delete from article where id="+post.getId()+";");
-//		return DBUtil.executeUpdateInsertDelete(sql.toString());
-//	}
-//
-//	
-//	
-//	public Post getPostById(int id){
-//		Post post=null;
-//		StringBuffer sql=new StringBuffer();
-//		sql.append("select * from post where id="+id+";");
-//		try{
-//			ResultSet set=DBUtil.executeQuery(sql.toString());
-//			while(set.next()){
-//				post=new Post();
-//				post.setId(set.getInt("id"));
-//				post.setTitle(set.getString("title"));
-//
-//				break;
-//			}
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//		}
-//		return post;
-//	}
-//	public ArrayList<Post> getAllPost(){
-//		ArrayList<Post> list=new ArrayList<Post>();
-//		StringBuffer sql=new StringBuffer();
-//		sql.append("select * from post");
-//		try{
-//			ResultSet set=DBUtil.executeQuery(sql.toString());
-//			while(set.next()){
-//				Post post=new Post();
-//				post.setId(set.getInt("pid"));
-//				post.setTitle(set.getString("title"));
-//				post.setDesc(set.getString("description"));
-//				post.setLink(set.getString("link"));
-//				list.add(post);
-//			}
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//		}
-//		return list;
-//	}
-//	
-//	
-//	
-//	public ArrayList<Post> getPostByRank(int limit){
-//		ArrayList<Post> list=new ArrayList<Post>();
-//		StringBuffer sql=new StringBuffer();
-////		sql.append("select * from article order by pid");
-//		try{
-//			ResultSet set=DBUtil.executeQuery(sql.toString());
-//			while(set.next()){
-//				Post post=new Post();
-////				post.setId(set.getInt("id"));
-////				post.setTitle(set.getString("title"));
-////				post.setDesc(set.getString("description"));
-////				post.setLink(set.getString("link"));
-//				list.add(post);
-//			}
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//		}
-//		return list;
-//	}
-//	
-//	
-//	public ArrayList<Post> getPostforUser(User user){
-//		ArrayList<Post> list=new ArrayList<Post>();
-//		StringBuffer sql=new StringBuffer();
-////		sql.append("select * from article order by pid");
-//		try{
-//			ResultSet set=DBUtil.executeQuery(sql.toString());
-//			while(set.next()){
-//				Post post=new Post();
-////				post.setId(set.getInt("id"));
-////				post.setTitle(set.getString("title"));
-////				post.setDesc(set.getString("description"));
-////				post.setLink(set.getString("link"));
-//				list.add(post);
-//			}
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//		}
-//		return list;
-//	}
-//	
-////	public int update(Post article){
-////	StringBuffer sql=new StringBuffer();
-////	int i=0;
-////	try{
-////		sql.append("update article set title='"+article.getTitle()+"',");
-////		sql.append("content='"+article.getContent()+"',");
-////		sql.append("where id="+article.getId()+";");
-////		i=DBUtil.executeUpdateInsertDelete(sql.toString());
-////	}catch(Exception ex){
-////		ex.printStackTrace();
-////	}
-////	return i;
-////}
-//}
-//=======
 package service;
 
 import java.sql.ResultSet;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import databaseobject.Post;
 import databaseobject.User;
@@ -138,37 +17,45 @@ import db.DBUtil;
 public class PostService {
 	public int save(Post post){
 		StringBuffer sql=new StringBuffer();
-		sql.append("insert into post(pid,title,description,link)");
+		sql.append("insert into post(pid,usrid,title,description,link,likecount,dislikecount,score,time)");
 		int newpid=DBUtil.getPostMaxId()+1;
 		sql.append("values("+newpid);
 		sql.append(",'"+post.getTitle()+"',");
+		sql.append(",'"+post.getUsrid()+"',");
 		sql.append("'"+post.getDesc()+"',");
-		sql.append("'"+post.getLink()+"')");
-		
+		sql.append("'"+post.getLink()+"',");
+		sql.append("'"+post.getLikecount()+"',");
+		sql.append("'"+post.getDisLikecount()+"',");
+		sql.append("'"+post.getTime()+"')");
 		return DBUtil.executeUpdateInsertDelete(sql.toString());
 	}
 	
 	
 	public int delete(Post post){
 		StringBuffer sql=new StringBuffer();
-		sql.append("delete from article where id="+post.getId()+";");
+		sql.append("delete from post where pid="+post.getPid()+";");
 		return DBUtil.executeUpdateInsertDelete(sql.toString());
 	}
 
 	
 	
-	public Post getPostById(int id){
+	public Post getPostById(int pid){
 		Post post=null;
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post where pid="+id+";");
+		sql.append("select * from post where pid="+pid+";");
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
 				post=new Post();
-				post.setId(set.getInt("pid"));
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
 				post.setLink(set.getString("link"));
+				post.setLikecount(set.getInt("likecount"));
+				post.setDisLikecount(set.getInt("dislikecount"));
+				post.setScore(set.getDouble("score"));
+				post.setTime(set.getTimestamp("time"));
 				break;
 			}
 		}catch(Exception ex){
@@ -184,10 +71,15 @@ public class PostService {
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
 				Post post=new Post();
-				post.setId(set.getInt("pid"));
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
 				post.setLink(set.getString("link"));
+				post.setLikecount(set.getInt("likecount"));
+				post.setDisLikecount(set.getInt("dislikecount"));
+				post.setScore(set.getDouble("score"));
+				post.setTime(set.getTimestamp("time"));
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -196,19 +88,25 @@ public class PostService {
 		return list;
 	}
 	
-	public ArrayList<Post> getPost(int num){
+	
+	
+	public ArrayList<Post> getPostByRank(int limit){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post where rownum <=");
-		sql.append(num);
+//		sql.append("select * from article order by score");
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
 				Post post=new Post();
-				post.setId(set.getInt("pid"));
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
 				post.setLink(set.getString("link"));
+				post.setLikecount(set.getInt("likecount"));
+				post.setDisLikecount(set.getInt("dislikecount"));
+				post.setScore(set.getDouble("score"));
+				post.setTime(set.getTimestamp("time"));
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -217,39 +115,63 @@ public class PostService {
 		return list;
 	}
 	
-	public ArrayList<Post> getPostRankbyTime(int num){
-		ArrayList<Post> posts=getPost(num);
-		return rs.rankbyTime(posts);
+	
+	public ArrayList<Post> getPostforUser(User user){//TODO
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+//		sql.append("select * from article order by pid");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("link"));
+				post.setLikecount(set.getInt("likecount"));
+				post.setDisLikecount(set.getInt("dislikecount"));
+				post.setScore(set.getDouble("score"));
+				post.setTime(set.getTimestamp("time"));
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
 	}
 	
-	public ArrayList<Post> getPostRankbyScore(int num){
-		ArrayList<Post> posts=getPost(num);
-		return rs.rankbyScore(posts);
-	}
-	
-	
-	public ArrayList<Post> getPostRankbyScoreforUser(int num,User user){
-		ArrayList<Post> posts=getPost(num);
-		return rs.rankbyScoreforUser(posts, user);
-	}
-	
-//	public int update(Post article){
-//	StringBuffer sql=new StringBuffer();
-//	int i=0;
-//	try{
-//		sql.append("update article set title='"+article.getTitle()+"',");
-//		sql.append("content='"+article.getContent()+"',");
-//		sql.append("where id="+article.getId()+";");
-//		i=DBUtil.executeUpdateInsertDelete(sql.toString());
-//	}catch(Exception ex){
-//		ex.printStackTrace();
-//	}
-//	return i;
-//}
-	RankService rs;
-	public PostService()
+	public int  updateScore(Post post)
 	{
-		rs=new RankService();
+		double newscore=calScore(post.getLikecount(),post.getDisLikecount(),post.getTime());
+		StringBuffer sql=new StringBuffer();
+		sql.append("update  post set score=");
+		sql.append(newscore);
+		sql.append("where pid=");
+		sql.append(post.getPid());
+		return DBUtil.executeUpdateInsertDelete(sql.toString());
+	}
+	public double calScore(int likecount,int dislikecount,Timestamp time)
+	{
+		long t=time.getTime()-START_TIME.getTime();
+		int x=likecount-dislikecount;
+		int y=0;
+		int z=1;
+		if(x>0)
+			y=1;
+		else if(x<0)
+			y=-1;
+		if(Math.abs(x)>=1)
+			z=Math.abs(x);
+		return Math.log10(z)+y*t/time_ratio;
+	}
+	static Timestamp START_TIME=null;
+	static int time_ratio=45000;
+	public PostService() throws ParseException
+	{
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = dateFormat.parse("01/01/2012");
+		long start_time = date.getTime();
+		START_TIME=new Timestamp(start_time);
 	}
 }
-//>>>>>>> Post.save() and getAllPost() is working

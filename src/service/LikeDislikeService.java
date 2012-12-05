@@ -15,7 +15,7 @@ public class LikeDislikeService {
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postlike(usrid,pid,time)");
 		sql.append("values("+user.getId());
-		sql.append(",'"+post.getId()+"',");
+		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;//TODO check if key already exist
 	}
@@ -25,7 +25,7 @@ public class LikeDislikeService {
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postdislike(usrid,pid,time)");
 		sql.append("values("+user.getId());
-		sql.append(",'"+post.getId()+"',");
+		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;
 	}
@@ -35,7 +35,7 @@ public class LikeDislikeService {
 
 		ArrayList<PostLike> list=new ArrayList<PostLike>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from postlike where pid="+post.getId());
+		sql.append("select * from postlike where pid="+post.getPid());
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -54,7 +54,7 @@ public class LikeDislikeService {
 	{
 		ArrayList<PostDisLike> list=new ArrayList<PostDisLike>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from postdislike where pid="+post.getId());
+		sql.append("select * from postdislike where pid="+post.getPid());
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
