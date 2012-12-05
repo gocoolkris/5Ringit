@@ -4,7 +4,7 @@ package databaseobject;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Post implements Serializable{
+public class Post implements Serializable, Comparable{
 	private int pid;
 	private int usrid;
 	private String title;		
@@ -97,6 +97,10 @@ public class Post implements Serializable{
 		this.time=time;
 	}
 	
-	
+	public int compareTo(Object p)
+	{
+		return (int) (score-((Post)p).getScore());
+	}
+
 	
 }
