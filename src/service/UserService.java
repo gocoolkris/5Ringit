@@ -1,6 +1,7 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import databaseobject.User;
 public class UserService {
@@ -19,7 +20,7 @@ public class UserService {
 		return null;
 	}
 	
-	public User getUser(String username) {
+	public User getUserbyUsername(String username) {
 		return null;
 	}
 	
@@ -27,8 +28,18 @@ public class UserService {
 		return null;
 	}
 	
+
     public User getUserbyusrid(int usrid) {
 		
+		return null;
+	}
+	public User getUserbyUsrid(int usrid) {
+		
+		return null;
+	}
+
+	public HashSet<Integer> getFolloweeList(User user) {
+
 		return null;
 	}
 }

@@ -14,7 +14,7 @@ public class LikeDislikeService {
 	{
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postlike(usrid,pid,time)");
-		sql.append("values("+user.getId());
+		sql.append("values("+user.getUsrid());
 		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;//TODO check if key already exist
@@ -24,7 +24,7 @@ public class LikeDislikeService {
 	{
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postdislike(usrid,pid,time)");
-		sql.append("values("+user.getId());
+		sql.append("values("+user.getUsrid());
 		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;
