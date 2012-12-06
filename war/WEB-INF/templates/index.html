@@ -15,7 +15,7 @@
 						<div class="entry-body">
 							$entry.getDesc()
 						</div>
-						<div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() Â· <a href="/entry?postID=$entry.getId()">Comment</a> ($entry.getCommentCount()) Â· <a href="\#">Like</a> ($entry.getLikeCount())</div>
+			            <div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() á <a href="/entry?postID=$entry.getId()">Comment</a> ($entry.getCommentCount()) á #if($currentUser)#if($entry.isLiked())Liked#else<a href="\#">Like</a>#end#elseLike#end ($entry.getLikeCount()) á #if($currentUser)#if($entryIsDisliked())Disliked#else<a href="\#">Dislike</a>#end#elseDislike#end ($entry.getDislikeCount())</div>
 					</div>
 					#end
 					<div class="pagination">
