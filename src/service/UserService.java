@@ -27,9 +27,8 @@ public class UserService {
 		return null;
 	}
 	
-public User getUserbyusrid(int usrid) {
+    public User getUserbyusrid(int usrid) {
 		
 		return null;
 	}
-
 }

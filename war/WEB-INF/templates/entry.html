@@ -6,7 +6,7 @@
 						<div class="entry-body">
 							$entry.getDesc()
 						</div>
-						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · #if($currentUser)#if($entry.isLiked())Liked#else<a href="\#">Like</a>#end#elseLike#end ($entry.getLikeCount()) · #if($currentUser)#if($entryIsDisliked())Disliked#else<a href="\#">Dislike</a>#end#elseDislike#end ($entry.getDislikeCount())</div>
+						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · #if($currentUser)#if($entry.isLiked())Liked#else<a href="\#">Like</a>#end#elseLike#end ($entry.getLikeCount()) · #if($currentUser)#if($entry.isDisliked())Disliked#else<a href="\#">Dislike</a>#end#elseDislike#end ($entry.getDislikeCount())</div>
 					</div>
 					<br>
 					<ul id="comments" class="nav nav-tabs">

@@ -75,9 +75,9 @@ public class FrontPage extends VelocityServlet {
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
-			   Entry e = new Entry("2008 summer olympic"," description1_" + i,"http://en.wikipedia.org/wiki/2008_Summer_Olympics", "david", tmp.getTime(), 1, 1);
-			   e.setId(i);
+			   Entry e = Entry.getFakeEntry(i);
 			   entries.add(e);
+			  
 		   }
 		 //end
 		 

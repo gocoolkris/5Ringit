@@ -12,6 +12,9 @@ public class Entry {
 	private long postedTime;
 	private int commentCount;
 	private int likeCount;
+	private int dislikeCount;
+	private boolean isLiked;
+	private boolean isDisliked;
 
 	public Entry(String title,String desc,String url,String author,long postedTime, 
 			int commentCount, int likeCount){
@@ -64,6 +67,13 @@ public class Entry {
 		this.likeCount = likeCount;
 	}
 	
+	public int getDislikeCount() {
+		return dislikeCount;
+	}
+	public void setDislikeCount(int dislikeCount) {
+		this.dislikeCount = dislikeCount;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -94,6 +104,31 @@ public class Entry {
 	}
 	public void setLink(String url) {
 		this.link = url;
-	}	
+	}
+	
+	public boolean isLiked() {
+		return isLiked;
+	}
+	public boolean isDisliked() {
+		return isDisliked;
+	}
+	
+	public void setIsLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+	public void setIsDisliked(boolean isDisliked) {
+		this.isDisliked = isDisliked;
+	}
+	public static Entry getFakeEntry(int entryId) {
+		Date date = new Date();
+		long now = date.getTime();
+		Entry e = new Entry("2008 summer olympic"," description1_" + entryId,"http://en.wikipedia.org/wiki/2008_Summer_Olympics", "david", now, 1, 1);
+		e.setLikeCount(0);
+	    e.setDislikeCount(0);
+	    e.setIsDisliked(true);
+		e.setIsLiked(true);
+		e.setId(entryId);
+		return e;
+	}
 
 }

@@ -172,6 +172,7 @@ public class PostService {
 	static Timestamp START_TIME=null;
 	static int time_ratio=45000;
 	UserService us;
+	
 	public PostService() throws ParseException
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
