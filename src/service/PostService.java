@@ -7,7 +7,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 import databaseobject.Post;
 import databaseobject.User;
@@ -63,7 +65,7 @@ public class PostService {
 		}
 		return post;
 	}
-	public ArrayList<Post> getAllPost(){
+	public ArrayList<Post> getAllPosts(){
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from post");
@@ -90,10 +92,10 @@ public class PostService {
 	
 	
 	
-	public ArrayList<Post> getPostByRank(int limit){//TODO
+	public ArrayList<Post> getPostsRankbyScore(int limit){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-//		sql.append("select * from article order by score");
+		sql.append("select * from post order by score desc");
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -116,10 +118,51 @@ public class PostService {
 	}
 	
 	
-	public ArrayList<Post> getPostforUser(User user){//TODO
+	public ArrayList<Post> getPostsRankbyScoreforUser(int num,User user){//TODO
+		ArrayList<Post> list=getPostsRankbyScore(num);
+		HashSet<Integer> followeelist=us.getFolloweeList(user);
+		
+		for(Post p:list)
+		{
+			if(followeelist.contains(p.getUsrid()))
+				p.setScore(p.getScore()*followee_ratio);
+		}
+		Collections.sort(list);
+		return list;
+	}
+	
+	public ArrayList<Post> getPostsRankbyTime(int limit){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-//		sql.append("select * from article order by pid");
+		sql.append("select * from post order by time desc");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("link"));
+				post.setLikecount(set.getInt("likecount"));
+				post.setDisLikecount(set.getInt("dislikecount"));
+				post.setScore(set.getDouble("score"));
+				post.setTime(set.getTimestamp("time"));
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	public ArrayList<Post> getAllPostsforUser(User user)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where usrid=");
+		sql.append(user.getUsrid());
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -142,7 +185,19 @@ public class PostService {
 	}
 	
 	public User getUserByPost(Post post){
-		return us.getUserbyusrid(post.getUsrid());
+		return us.getUserbyUsrid(post.getUsrid());
+	}
+	
+	public void Like(Post post)
+	{
+		post.setLikecount(post.getLikecount());
+		updateScore(post);
+	}
+	
+	public void DisLike(Post post)
+	{
+		post.setDisLikecount(post.getDisLikecount());
+		updateScore(post);
 	}
 	
 	public int  updateScore(Post post)
@@ -151,7 +206,7 @@ public class PostService {
 		StringBuffer sql=new StringBuffer();
 		sql.append("update  post set score=");
 		sql.append(newscore);
-		sql.append("where pid=");
+		sql.append(" where pid=");
 		sql.append(post.getPid());
 		return DBUtil.executeUpdateInsertDelete(sql.toString());
 	}
@@ -169,9 +224,14 @@ public class PostService {
 			z=Math.abs(x);
 		return Math.log10(z)+y*t/time_ratio;
 	}
+	
+
+	
 	static Timestamp START_TIME=null;
 	static int time_ratio=45000;
+	static double followee_ratio=1.5;
 	UserService us;
+	
 	public PostService() throws ParseException
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

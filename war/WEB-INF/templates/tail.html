@@ -4,6 +4,40 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script>
+		$(function() {
+			// bind links
+			$('a.like-link,a.dislike-link').bind('click', function() {
+				if (!$(this).hasClass("disabled")) {
+					vote($(this));
+				}
+				return false;
+			});
+		}
+
+		function vote(link) {
+			link.addClass("disabled");
+			link.text(link.text() + "d");
+			updateCount(link, +1);
+
+			$.ajax({
+				type: 'GET',
+				url: link.attr("href"),
+				error: function(jqXHR, textStatus, errorThrown){
+					cancelVote(link);
+				}
+			});
+		}
+
+		function cancelVote(link) {
+			link.removeClass("disabled");
+			link.text(link.text().substr(0, link.text().length - 1)); // remove "d" at the end
+			updateCount(link, -1);
+		}
+
+		function updateCount(link, delta) {
+			count = link.next(".count");
+			count.text(parseInt(count.text()) + delta);
+		}
 		</script>
 	</body>
 </html>

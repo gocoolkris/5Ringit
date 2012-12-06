@@ -1,9 +1,13 @@
 package frontEndObject;
 
+import java.util.Date;
+
+
 public class CommentEntry {
 	
 	String author;
 	String content;
+	long postedTime;
 	
 	public CommentEntry(String author, String content) {
 		this.author=author;
@@ -21,6 +25,20 @@ public class CommentEntry {
 	}
 	public void setContent(String content) {
 		this.content= content;
+	}
+	public long getPostedTime() {
+		return postedTime;
+	}
+	public void setPostedTime(long postedTime) {
+		this.postedTime = postedTime;
+	}
+	
+	public String getRalativePostedTime() {
+		
+		Date date = new Date();
+		long relativeTime = date.getTime() - postedTime;
+		return Utils.convertDate(relativeTime);
+		
 	}
 	
 	
