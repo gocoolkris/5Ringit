@@ -27,6 +27,15 @@ public class UserService {
 		return null;
 	}
 	
+
+	public HashSet<Integer> getFolloweeList(User user){
+
+		return null;
+
+	}
+
+
+
 public User getUserbyusrid(int usrid) {
 		
 		return null;
