@@ -1,45 +1,137 @@
 package service;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import db.DBUtil;
 import databaseobject.Comment;
 import databaseobject.Post;
 import databaseobject.User;
-import db.DBUtil;
 
 public class CommentService {
-	public int save(Comment comment){
-		StringBuffer sql=new StringBuffer();
-//		sql.append("insert into post(pid,usrid,title,description,link,likecount,dislikecount,score,time)");
-//		int newpid=DBUtil.getPostMaxId()+1;
-//		sql.append("values("+newpid);
-//		sql.append(",'"+post.getTitle()+"',");
-//		sql.append(",'"+post.getUsrid()+"',");
-//		sql.append("'"+post.getDesc()+"',");
-//		sql.append("'"+post.getLink()+"',");
-//		sql.append("'"+post.getLikecount()+"',");
-//		sql.append("'"+post.getDisLikecount()+"',");
-//		sql.append("'"+post.getTime()+"')");
-		return DBUtil.executeUpdateInsertDelete(sql.toString());
+
+	public boolean saveComment(Comment comment){
+		
+		String query = "INSERT INTO COMMENTS VALUES(%d,%d,current_timestamp,'%s');\n";
+		try{
+			DBUtil.executeQuery(String.format(query,comment.getUsrid(),comment.getPid(),comment.getContent()));
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+		
 	}
-	public int delete(Post post){
-		StringBuffer sql=new StringBuffer();
-		sql.append("delete from post where pid="+post.getPid()+";");
-		return DBUtil.executeUpdateInsertDelete(sql.toString());
+	/*
+	public boolean deleteComment(Comment comment){
+		
+		
+		String query = "DELETE FROM COMMENTS WHERE "
+		
+		
+		
+		return false;
+		
 	}
+	*/
 	
-	public ArrayList<Comment> getCommentsforPost(Post post,int limit)
-	{
+	public ArrayList<Comment> getCommentsForPost(Post post, int limit){
+		
+		String query = "SELECT * FROM COMMENTS WHERE PID=%d AND ROWNUM <=%d";
+		ResultSet rs = DBUtil.executeQuery(String.format(query,post.getPid(),limit));
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		try{
+			while(rs.next()){
+				
+				Comment c = new Comment();
+				c.setUsrid(rs.getInt("USRID"));
+				c.setPid(rs.getInt("PID"));
+				c.setPosttime(rs.getTimestamp("POSTTIME"));
+				c.setContent("CONTENT");
+				comments.add(c);
+			}
+			
+			return comments;
+		}
+		catch(Exception e){
+			
+		}
+	
 		return null;
 	}
 	
-	public ArrayList<Comment> getCommentsforPostRankbyTime(Post post,int limit)
-	{
+	
+	
+	public ArrayList<Comment> getAllCommentsForPost(Post post){
+		
+		String query = "SELECT * FROM COMMENTS WHERE PID=%d;";
+		ResultSet rs = DBUtil.executeQuery(String.format(query,post.getPid()));
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		try{
+			while(rs.next()){
+				
+				Comment c = new Comment();
+				c.setUsrid(rs.getInt("USRID"));
+				c.setPid(rs.getInt("PID"));
+				c.setPosttime(rs.getTimestamp("POSTTIME"));
+				c.setContent("CONTENT");
+				comments.add(c);
+			}
+			
+			return comments;
+		}
+		catch(Exception e){
+			
+		}
+	
 		return null;
+		
 	}
 	
-	public ArrayList<Comment> getCommentsforUser(User user)
-	{
+	
+	public ArrayList<Comment> getCommentsForUser(User user){
+		
+		String query = "SELECT * FROM COMMENTS WHERE USRID=%d;";
+		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrId()));
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		try{
+			while(rs.next()){
+				
+				Comment c = new Comment();
+				c.setUsrid(rs.getInt("USRID"));
+				c.setPid(rs.getInt("PID"));
+				c.setPosttime(rs.getTimestamp("POSTTIME"));
+				c.setContent(rs.getString("CONTENT"));
+				comments.add(c);
+			}
+			
+			return comments;
+		}
+		catch(Exception e){
+			
+		}
+	
 		return null;
+		
 	}
+	
+	public int getCommentsCountForPost(Post post){
+	
+		String query = "SELECT COUNT(*) AS CMTCOUNT FROM COMMENTS WHERE PID=%d";
+		int count = Integer.MIN_VALUE;
+		try{
+			ResultSet rs = DBUtil.executeQuery(String.format(query,post.getPid()));
+			while(rs.next()){
+				
+			count = rs.getInt("CMTCOUNT");	
+			break;
+			}
+		}
+		catch(Exception e){
+			
+		}
+		return count;
+	}
+	
+	
 }

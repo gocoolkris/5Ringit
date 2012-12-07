@@ -86,7 +86,8 @@ public class Profile extends VelocityServlet {
 		 //end
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
-		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
+		 
+		 for(int i=numPostsPerPage*(pageNum-1); i < numPostsPerPage*pageNum && i < entries.size(); i++) {
 			 entriesPage.add(entries.get(i));
 		 }
 
@@ -97,13 +98,13 @@ public class Profile extends VelocityServlet {
 			pages[i-1] = i;
 		}
 		
-		 //ArrayList<User> followingList = userService.getFollowingList(userName);
-		 //HashSet<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName);
+		 ArrayList<User> followingList = userService.getFollowingList(userName);
+		 ArrayList<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName));
 		  
 		 
 		
 		//faking followingList
-		
+		/*
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
@@ -112,7 +113,7 @@ public class Profile extends VelocityServlet {
 			followingList.add(followed);
 			followerList.add(follower);
 		}
-		
+		*/
 		//end
 
 		

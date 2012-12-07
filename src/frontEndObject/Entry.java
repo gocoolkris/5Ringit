@@ -42,6 +42,7 @@ public class Entry {
 		this.title=post.getTitle();
 		this.desc= post.getDesc();
 		this.link= post.getLink();
+		this.id = post.getPid();
 		this.postedTime = post.getTime().getTime();
 		
 	}

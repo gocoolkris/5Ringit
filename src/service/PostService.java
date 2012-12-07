@@ -19,16 +19,14 @@ import db.DBUtil;
 public class PostService {
 	public int save(Post post){
 		StringBuffer sql=new StringBuffer();
-		sql.append("insert into post(pid,usrid,title,description,link,likecount,dislikecount,score,time)");
+		sql.append("insert into post (pid,usrid,title,description,lnk,posttime,score)");
 		int newpid=DBUtil.getPostMaxId()+1;
 		sql.append("values("+newpid);
+		sql.append(","+post.getUsrid());
 		sql.append(",'"+post.getTitle()+"',");
-		sql.append(",'"+post.getUsrid()+"',");
 		sql.append("'"+post.getDesc()+"',");
 		sql.append("'"+post.getLink()+"',");
-		sql.append("'"+post.getLikecount()+"',");
-		sql.append("'"+post.getDisLikecount()+"',");
-		sql.append("'"+post.getTime()+"')");
+		sql.append("current_timestamp,0)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString());
 	}
 	
@@ -42,22 +40,19 @@ public class PostService {
 	
 	
 	public Post getPostById(int pid){
-		Post post=null;
+		Post post=new Post();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post where pid="+pid+";");
+		sql.append("select * from post where pid="+pid);
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
-				post=new Post();
 				post.setPid(set.getInt("pid"));
 				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("link"));
-				post.setLikecount(set.getInt("likecount"));
-				post.setDisLikecount(set.getInt("dislikecount"));
-				post.setScore(set.getDouble("score"));
-				post.setTime(set.getTimestamp("time"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
 				break;
 			}
 		}catch(Exception ex){
@@ -77,11 +72,9 @@ public class PostService {
 				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("link"));
-				post.setLikecount(set.getInt("likecount"));
-				post.setDisLikecount(set.getInt("dislikecount"));
-				post.setScore(set.getDouble("score"));
-				post.setTime(set.getTimestamp("time"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -95,7 +88,8 @@ public class PostService {
 	public ArrayList<Post> getPostsRankbyScore(int limit){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post order by score desc");
+		sql.append("select * from postpopular where rownum<");
+		sql.append(limit);
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -104,11 +98,9 @@ public class PostService {
 				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("link"));
-				post.setLikecount(set.getInt("likecount"));
-				post.setDisLikecount(set.getInt("dislikecount"));
-				post.setScore(set.getDouble("score"));
-				post.setTime(set.getTimestamp("time"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -120,7 +112,7 @@ public class PostService {
 	
 	public ArrayList<Post> getPostsRankbyScoreforUser(int num,User user){//TODO
 		ArrayList<Post> list=getPostsRankbyScore(num);
-		HashSet<Integer> followeelist=us.getFolloweeList(user);
+		HashSet<Integer> followeelist=us.getFolloweeListAsUserIdList(user);
 		
 		for(Post p:list)
 		{
@@ -134,7 +126,8 @@ public class PostService {
 	public ArrayList<Post> getPostsRankbyTime(int limit){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post order by time desc");
+		sql.append("select * from postlatest where rownum<");
+		sql.append(limit);
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -143,11 +136,9 @@ public class PostService {
 				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("link"));
-				post.setLikecount(set.getInt("likecount"));
-				post.setDisLikecount(set.getInt("dislikecount"));
-				post.setScore(set.getDouble("score"));
-				post.setTime(set.getTimestamp("time"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -162,7 +153,7 @@ public class PostService {
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from post where usrid=");
-		sql.append(user.getUsrid());
+		sql.append(user.getUsrId());
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -171,11 +162,9 @@ public class PostService {
 				post.setUsrid(set.getInt("usrid"));
 				post.setTitle(set.getString("title"));
 				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("link"));
-				post.setLikecount(set.getInt("likecount"));
-				post.setDisLikecount(set.getInt("dislikecount"));
-				post.setScore(set.getDouble("score"));
-				post.setTime(set.getTimestamp("time"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
 				list.add(post);
 			}
 		}catch(Exception ex){
@@ -190,19 +179,20 @@ public class PostService {
 	
 	public void Like(Post post)
 	{
-		post.setLikecount(post.getLikecount());
+//		post.setLikecount(ls.getLikeCount(post));
 		updateScore(post);
 	}
 	
 	public void DisLike(Post post)
 	{
-		post.setDisLikecount(post.getDisLikecount());
+//		post.setDisLikecount(ls.getLikeCount(post));
 		updateScore(post);
 	}
 	
+	
 	public int  updateScore(Post post)
 	{
-		double newscore=calScore(post.getLikecount(),post.getDisLikecount(),post.getTime());
+		double newscore=calScore(ls.getLikeCount(post),ls.getDisLikeCount(post),post.getTime());
 		StringBuffer sql=new StringBuffer();
 		sql.append("update  post set score=");
 		sql.append(newscore);
@@ -229,8 +219,9 @@ public class PostService {
 	
 	static Timestamp START_TIME=null;
 	static int time_ratio=45000;
-	static double followee_ratio=1.5;
+	static float followee_ratio=1.5f;
 	UserService us;
+	LikeDislikeService ls;
 	
 	public PostService() throws ParseException
 	{
@@ -239,5 +230,6 @@ public class PostService {
 		long start_time = date.getTime();
 		START_TIME=new Timestamp(start_time);
 		us=new UserService();
+		ls=new LikeDislikeService();
 	}
 }

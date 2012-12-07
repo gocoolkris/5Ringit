@@ -9,9 +9,9 @@ public class DBUtil {
 		if(conn==null){
 			try{
 				Class.forName("oracle.jdbc.driver.OracleDriver");
-				String username="";//TODO
-				String password="";
-				String url="jdbc:oracle:thin:@fling.seas.upenn.edu:1521:cis";
+				String username="gokul";//TODO
+				String password="gocool12";
+				String url="jdbc:oracle:thin:@gocool:1521:xe";
 				conn=DriverManager.getConnection(url,username,password);
 			}catch(Exception ex){
 				ex.printStackTrace();

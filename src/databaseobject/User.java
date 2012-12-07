@@ -3,7 +3,7 @@ package databaseobject;
 
 import java.io.Serializable;
 public class User implements Serializable{
-	private int usrid;
+	private int id;
 	private String username;
 	private String password;
 
@@ -14,11 +14,11 @@ public class User implements Serializable{
 		this.password=password;
 
 	}
-	public int getUsrid() {
-		return usrid;
+	public int getUsrId() {
+		return id;
 	}
-	public void setUsrid(int usrid) {
-		this.usrid = usrid;
+	public void setUsrId(int id) {
+		this.id = id;
 	}
 	public String getPassword() {
 		return password;

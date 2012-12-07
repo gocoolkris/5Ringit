@@ -10,9 +10,9 @@ public class Post implements Serializable, Comparable{
 	private String title;		
 	private String desc;	
 	private String link;
-	private int likecount;
-	private int dislikecount;
-	private double score;
+//	private int likecount;
+//	private int dislikecount;
+	private float score;
 	private Timestamp time;
 
 	public Post(){}
@@ -57,31 +57,31 @@ public class Post implements Serializable, Comparable{
 		this.link = url;
 	}		
 	
-	public int getLikecount()
-	{
-		return likecount;
-	}
+//	public int getLikecount()
+//	{
+//		return likecount;
+//	}
+//	
+//	public void setLikecount(int likecount)
+//	{
+//		this.likecount=likecount;
+//	}
+//	
+//	public int getDisLikecount() {
+//		return dislikecount;
+//	}
+//
+//	public void setDisLikecount(int dislikecount)
+//	{
+//		this.dislikecount=dislikecount;
+//	}
 	
-	public void setLikecount(int likecount)
-	{
-		this.likecount=likecount;
-	}
-	
-	public int getDisLikecount() {
-		return dislikecount;
-	}
-
-	public void setDisLikecount(int dislikecount)
-	{
-		this.dislikecount=dislikecount;
-	}
-	
-	public double getScore()
+	public float getScore()
 	{
 		return score;
 	}
 	
-	public void setScore(double score)
+	public void setScore(float score)
 	{
 		this.score=score;
 	}

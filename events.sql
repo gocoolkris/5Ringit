@@ -5353,3 +5353,4 @@ INSERT INTO EVENT VALUES(5351,1906,'Summer','Athina','Mens Sabre, Masters, Indiv
 INSERT INTO EVENT VALUES(5352,1932,'Summer','Los Angeles','Mixed Alpinism');
 INSERT INTO EVENT VALUES(5353,1936,'Summer','Berlin','Mixed Aeronautics');
 INSERT INTO EVENT VALUES(5354,1920,'Summer','Antwerpen','Mixed Architecture');
+commit;

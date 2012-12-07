@@ -45,7 +45,7 @@ public class Voting extends HttpServlet  {
 				session.setAttribute(postID, "like");
 
 			}else if(vote.equals("dislike")) {
-				success = ldService.Like(ps.getPostById(Integer.parseInt(postID)), userService.getUserbyUsername(username));
+				success = ldService.DisLike(ps.getPostById(Integer.parseInt(postID)), userService.getUserbyUsername(username));
 				System.out.println(username + " dislike post: " + postID);
 				session.setAttribute(postID, "dislike");
 			}
