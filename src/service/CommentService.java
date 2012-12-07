@@ -30,16 +30,16 @@ public class CommentService {
 	
 	public ArrayList<Comment> getCommentsforPost(Post post,int limit)
 	{
-		
+		return null;
 	}
 	
 	public ArrayList<Comment> getCommentsforPostRankbyTime(Post post,int limit)
 	{
-		
+		return null;
 	}
 	
 	public ArrayList<Comment> getCommentsforUser(User user)
 	{
-		
+		return null;
 	}
 }

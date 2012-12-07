@@ -8,8 +8,12 @@ import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
+import service.PostService;
+import service.UserService;
+
 import javax.servlet.http.*;
 import frontEndObject.Entry;
+import databaseobject.Post;
 import databaseobject.User;
 
 public class Profile extends VelocityServlet {
@@ -38,19 +42,47 @@ public class Profile extends VelocityServlet {
 			 currentUser = (String)session.getAttribute("username"); 
 		 }
 		 
-		 /**
-		  * PostService postService = new PostService();
-		  * ArrayList<Post> entries = postService.getPostsByUser(String username);
-		  * ArrayList<entry> entries = ...
-		  */
+		  PostService postService = null;
+		  try {
+			  postService = new PostService();
+		  }catch(Exception e) {
+			  e.printStackTrace();
+		  }
+		  UserService userService = new UserService();
+		  
+		  ArrayList<Post> posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));		  
+		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
+	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
+	   	  
+	   	  for(int i = 0; i< entriesTmp.size(); i++) {
+	   		  Entry e = entriesTmp.get(i);
+	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
+			   System.out.println("postIDVote:"+postIDVote);
+			   e.setIsLiked(false);
+			   e.setIsDisliked(false);
+			   if(postIDVote!=null) {
+				   if(postIDVote.equals("like")) {
+					   e.setIsLiked(true);
+				   }
+				   if(postIDVote.equals("dislike")) {
+					   e.setIsDisliked(true);
+				   }
+			   }
+			   entries.add(e);
+	   	  }
+	   		
+			   
+		  
 		 
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
+		 /**
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
 			 entries.add(Entry.getFakeEntry(i));			
 		 }
+		 */
 		 //end
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
@@ -65,14 +97,13 @@ public class Profile extends VelocityServlet {
 			pages[i-1] = i;
 		}
 		
-		/**
-		 * UserService userService = new UserService();
-		 * ArrayList<User> followingList = userService.getFollowingList(String username);
-		 * ArrayList<User> followerList = userService.getFollowerList(String username);
-		 * 
-		 */
+		 //ArrayList<User> followingList = userService.getFollowingList(userName);
+		 //HashSet<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName);
+		  
+		 
 		
 		//faking followingList
+		
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
@@ -81,6 +112,7 @@ public class Profile extends VelocityServlet {
 			followingList.add(followed);
 			followerList.add(follower);
 		}
+		
 		//end
 
 		

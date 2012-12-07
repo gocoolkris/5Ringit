@@ -27,11 +27,17 @@ public class FrontPage extends VelocityServlet {
             	Context context ) {
 		 
 		 String order = request.getParameter("order");
-		 String loginSuccess = request.getParameter("login");
+		 String loginSuccess = request.getParameter("login");		 
+		 String msg = request.getParameter("msg");
 		 
 		 String alertMessage = null;
+		 
+		 if(msg!=null&&msg.equals("voted")) {
+			 alertMessage = "You already voted for this post. Thanks.";
+		 }
+		 
 		 if(loginSuccess!=null && loginSuccess.equals("fail")) {
-			 alertMessage = "Wrong password or username. Please try again";
+			 alertMessage = "Not logged in. Please try again";
 		 }
 		 
 		 HttpSession session = request.getSession();
@@ -52,10 +58,14 @@ public class FrontPage extends VelocityServlet {
 		 System.out.println(pageNum);
 		 
 		 		   		   
-		   /**
+		   
 		   ArrayList<Post> posts;
-		   ArrayList<Entry> entries;
-		   PostService postService = new PostService();
+		   PostService postService = null;
+		   try {
+			   postService = new PostService();
+		   }catch(Exception e) {
+			   e.printStackTrace();
+		   }
 		   if(order!=null && order.equals("popular")) {
 			   	if(currentUser!=null){
 			   		UserService userService = new UserService();
@@ -68,19 +78,53 @@ public class FrontPage extends VelocityServlet {
 		   }else{
 			   posts = postService.getPostsRankbyTime(totalPosts);
 		   }
-	   		entries = Entry.getEntries(posts);
-	   		*/
+		   
+		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
+	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
+	   	  
+	   	  for(int i = 0; i< entriesTmp.size(); i++) {
+	   		  Entry e = entriesTmp.get(i);
+	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
+			   System.out.println("postIDVote:"+postIDVote);
+			   e.setIsLiked(false);
+			   e.setIsDisliked(false);
+			   if(postIDVote!=null) {
+				   if(postIDVote.equals("like")) {
+					   e.setIsLiked(true);
+				   }
+				   if(postIDVote.equals("dislike")) {
+					   e.setIsDisliked(true);
+				   }
+			   }
+			   entries.add(e);
+	   	  }
+	   		
 			   
 
 		 
 		 //create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
+		 /**
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 for (int i=0; i<totalPosts; i++) {
 			   Entry e = Entry.getFakeEntry(i);
+			   String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
+			   System.out.println("postIDVote:"+postIDVote);
+			   e.setIsLiked(false);
+			   e.setIsDisliked(false);
+			   if(postIDVote!=null) {
+				   if(postIDVote.equals("like")) {
+					   e.setIsLiked(true);
+				   }
+				   if(postIDVote.equals("dislike")) {
+					   e.setIsDisliked(true);
+				   }
+			   }
 			   entries.add(e);
 		   }
 		 //end
+		  * 
+		  */
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
 		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
@@ -119,6 +163,7 @@ public class FrontPage extends VelocityServlet {
 				context.put("currentUser", currentUser);
 				context.put("userList", userList);
 				context.put("alertMessage", alertMessage);
+				context.put("order", order);
 				template = Velocity.getTemplate("index.html");
 				
 				

@@ -40,7 +40,7 @@ public class CommentEntry {
 		return Utils.convertDate(relativeTime);
 		
 	}
-	
+	public CommentEntry()
 	
 	
 

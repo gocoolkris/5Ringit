@@ -8,10 +8,15 @@ import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
+import service.CommentService;
+import service.PostService;
+
 import javax.servlet.http.*;
 
 import frontEndObject.CommentEntry;
 import frontEndObject.Entry;
+import databaseobject.Comment;
+import databaseobject.Post;
 import databaseobject.User;
 
 public class CommentsPage extends VelocityServlet {
@@ -37,12 +42,17 @@ public class CommentsPage extends VelocityServlet {
 		 System.out.println("postID:" + postID);
 		 
 		 /**
-		  * Entry entry = PostService.getPostByPostID(int ID);
-		  * ArrayList<CommentEntry> comments = PostService.getCommentsByID(int ID);
-		  * 
-		  */
+		  PostService postService = new PostService();
+		  CommentService commentService = new CommentService();
+		  Post post = postService.getPostById(Integer.parseInt(postID));
+		  
+		  Entry entry = new Entry(post);
+		  ArrayList<Comment> comments = commentService.getCommentsforPost(post, 100);
+		   */
+		  
 		 
 		 //faking entry object
+		 
 		 Date now = new Date();
 		 long nowTime = now.getTime();
 		 Entry entry = new Entry("title", "Description", "URL://url.com", "Wei Dai", nowTime, 100, 100);
@@ -51,6 +61,7 @@ public class CommentsPage extends VelocityServlet {
 		 for(int i=0; i<commentNumLimit; i++) {
 			 comments.add(new CommentEntry("JK rowling", "IJIJINNIHIJIJI"));
 		 }
+		 
 		 //end
 			
 			try {
