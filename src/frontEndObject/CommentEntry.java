@@ -2,6 +2,10 @@ package frontEndObject;
 
 import java.util.Date;
 
+import databaseobject.Comment;
+
+import service.UserService;
+
 
 public class CommentEntry {
 	
@@ -41,7 +45,15 @@ public class CommentEntry {
 		
 	}
 	
-	
+	public CommentEntry(Comment comment) {
+		UserService userService = new UserService();
+		
+		this.author = userService.getUserbyUsrid(comment.getUsrid()).getUsername();
+		this.content = comment.getContent();
+		this.postedTime = comment.getPosttime().getTime();
+		
+	}
+
 	
 
 }
