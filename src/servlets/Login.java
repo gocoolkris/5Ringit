@@ -40,7 +40,7 @@ public class Login extends HttpServlet  {
 		}else {
 			System.out.println("login failed");
 			session.setAttribute("login", "fail");
-			response.sendRedirect("/index");
+			response.sendRedirect("/index?login=fail");
 		}
 		
 	}

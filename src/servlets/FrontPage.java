@@ -54,30 +54,31 @@ public class FrontPage extends VelocityServlet {
 		 		   		   
 		   /**
 		   ArrayList<Post> posts;
+		   ArrayList<Entry> entries;
 		   PostService postService = new PostService();
 		   if(order!=null && order.equals("popular")) {
 			   	if(currentUser!=null){
 			   		UserService userService = new UserService();
-			   		User user = userService.getUser(currentUser);
-			   		posts = postService.getPostRankbyScoreforUser(totalPosts, user);
+			   		User user = userService.getUserbyUsername(currentUser);
+			   		posts = postService.getPostsRankbyScoreforUser(totalPosts, user);
+			   		
 			   	}else {
-			   		posts = postService.getPostRankbyScore(totalPosts);
+			   		posts = postService.getPostsRankbyScore(totalPosts);
 			   	}
 		   }else{
-			   posts = postService.getPostRankbyTime(totalPosts);
+			   posts = postService.getPostsRankbyTime(totalPosts);
 		   }
-		   */
+	   		entries = Entry.getEntries(posts);
+	   		*/
 			   
 
 		 
 		 //create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
-		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
 			   Entry e = Entry.getFakeEntry(i);
 			   entries.add(e);
-			  
 		   }
 		 //end
 		 
@@ -108,7 +109,7 @@ public class FrontPage extends VelocityServlet {
 				
 		try {
 						
-					
+				
 				context.put("entries", entriesPage);
 				//context.put("alertMessage", "psw invalid");
 				context.put("order", "latest");
