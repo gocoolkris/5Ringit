@@ -226,6 +226,19 @@ public class UserService {
 		return fs.follow(follower, followee);
 	}
 	
+	
+	public boolean isfollowing(User follower, User followee){
+		
+		FollowerService fs = new FollowerService();
+		return fs.isfollowing(follower, followee);
+	}
+	
+	
+	public boolean unfollow(User follower, User followee){
+		FollowerService fs = new FollowerService();
+		return fs.unfollow(follower, followee);
+	}
+	
 	public ArrayList<Post> getLikedPostsByUser(User usr){
 		try{
 			ArrayList<Post> posts = new ArrayList<Post>();

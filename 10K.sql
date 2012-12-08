@@ -1,3 +1,4 @@
+set define off;
 INSERT INTO POST VALUES(100,100,'THQUIRREL! ','','http://imgur.com/4M0a1',current_timestamp,0);
 
 INSERT INTO POST VALUES(101,100,'My Mom told me she had a surprise for me in my room, I walked into to this.','','http://i.imgur.com/YAe4W.jpg',current_timestamp,0);
@@ -19374,3 +19375,4 @@ INSERT INTO POST VALUES(9686,109,'Did someone say Anal? (SFW)','','http://imgur.
 
 INSERT INTO POST VALUES(9687,109,'Reddit may not always like OC, but when I modify a popular gif...','','http://i.imgur.com/nr5tm.gif',current_timestamp,0);
 
+commit;

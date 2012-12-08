@@ -19,9 +19,19 @@ public class FollowerService {
 		return false;
 	}
 	
+	public boolean unfollow(User follower, User followee){
+		String query = "DELETE FROM FOLLOWERLIST WHERE FOLLOWERID=%d AND FOLLOWEEID = %d;";
+		try{
+			DBUtil.executeQuery(String.format(query,follower.getUsrId(), followee.getUsrId()));
+			return true;
+		}
+		catch(Exception e){}
+		return false;
+	}
+	
 	public ArrayList<Integer>  getFollowers(User followee){
 	
-		String query = "SELECT FOLLOWEEID FROM FOLLOWER WHERE FOLLOWERID=%d";
+		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
 		try{
 			
 			ResultSet rs = DBUtil.executeQuery(String.format(query, followee.getUsrId()));
@@ -37,7 +47,7 @@ public class FollowerService {
 	}
 	
 	public ArrayList<Integer> getFollowees(User follower){
-		String query = "SELECT FOLLOWERID FROM FOLLOWER WHERE FOLLOWEEID=%d";
+		String query = "SELECT FOLLOWERID FROM FOLLOWERLIST WHERE FOLLOWEEID=%d";
 		try{
 			
 			ResultSet rs = DBUtil.executeQuery(String.format(query, follower.getUsrId()));
@@ -50,5 +60,21 @@ public class FollowerService {
 		}
 		catch(Exception e){}
 		return null;
+	}
+	
+	
+	public boolean isfollowing(User follower, User followee){
+		
+		String query = "SELECT COUNT(*) AS CNT FROM FOLLOWERLIST WHERE FOLLOWER=%d AND FOLLOWEE=%d";
+		try{
+			ResultSet rs = DBUtil.executeQuery(String.format(query,follower.getUsrId(),followee.getUsrId()));
+			while(rs.next()){
+				int count = rs.getInt("CNT");
+				if(count == 1) return true;
+				return false;
+			}
+		}
+		catch(Exception e){}
+		return false;
 	}
 }
