@@ -16,15 +16,15 @@ passwrd varchar(20),
 constraint pk_key2 primary key(usrid)
 );
 
-
 create table comments(
+cid int,
 usrid int,
 pid int,
 posttime timestamp,
-content varchar(250),
-constraint pk_key4 primary key(usrid,pid),
-constraint fk_key1 foreign key(usrid) references userlist(usrid),
-constraint fk_key2 foreign key(pid) references post(pid)
+content varchar(300),
+constraint pk_key4 primary key(cid),
+constraint fk_key1 foreign key(usrid) REFERENCES USERLIST(USRID),
+CONSTRAINT fk_key2 foreign key(pid) references post(pid)
 );
 
 create table postlike(
