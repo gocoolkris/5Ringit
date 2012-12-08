@@ -32,7 +32,9 @@ public class NewComment extends HttpServlet{
 				CommentService commentService = new CommentService();
 				boolean commentSuccess = commentService.saveComment(newComment);
 				if(commentSuccess) {
-					response.sendRedirect("/post");
+					response.sendRedirect("/entry?postID="+postID);
+				}else {
+					response.sendRedirect("/index");
 				}
 			}
 			

@@ -94,7 +94,7 @@ public class FrontPage extends VelocityServlet {
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   System.out.println("postIDVote:"+postIDVote);
+			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {

@@ -58,17 +58,17 @@ public class Profile extends VelocityServlet {
 		  if(mode.equals("posts")) {
 			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("likes")) {
-			  posts = ldService.getLikePostsByUser(userService.getUserbyUsername(userName));
+			  //posts = ldService.getLikePostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("dislikes")) {
-			  posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
+			  //posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("comments")) {
-			  posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
+			  //posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("attributes")) {
-			  UserService userService = new UserService();
-			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
+			  //athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
 		  }
 		  else {
 			  System.out.println("mode = "+mode);
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }
 		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
 	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
@@ -76,7 +76,7 @@ public class Profile extends VelocityServlet {
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   System.out.println("postIDVote:"+postIDVote);
+			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {
@@ -116,14 +116,14 @@ public class Profile extends VelocityServlet {
 		for(int i=1; i<=totalNumOfPages; i++) {
 			pages[i-1] = i;
 		}
-		
+		/**
 		 ArrayList<User> followingList = userService.getFollowingList(userName);
 		 ArrayList<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName));
-		  
+		 */
 		 
 		
 		//faking followingList
-		/*
+		
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
@@ -132,7 +132,7 @@ public class Profile extends VelocityServlet {
 			followingList.add(followed);
 			followerList.add(follower);
 		}
-		*/
+		
 		//end
 
 		
