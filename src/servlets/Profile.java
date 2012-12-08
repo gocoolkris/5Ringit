@@ -66,6 +66,9 @@ public class Profile extends VelocityServlet {
 		  LikeDislikeService ldService = new LikeDislikeService();
 		  CommentService commentService = new CommentService();
 		  
+		  boolean followed = userService.isFollowing(userService.getUserbyUsername(currentUser), 
+				  userService.getUserbyUsername(userName);
+
 		  
 		  /**
 		  ArrayList<TmpAthleteData> athleteInfo = null;
@@ -141,9 +144,9 @@ public class Profile extends VelocityServlet {
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
-			User followed = new User("Estrella", "Estrella");
+			User followee = new User("Estrella", "Estrella");
 			User follower = new User("Obama", "Obama");
-			followingList.add(followed);
+			followingList.add(followee);
 			followerList.add(follower);
 		}
 		//end
@@ -164,6 +167,8 @@ public class Profile extends VelocityServlet {
 					context.put("followerList", followerList);
 					context.put("attributes", athleteInfo);
 					context.put("hasAttribute", hasAttribute);
+					context.put("followed", followed);
+					context.put("mode", mode);
 					template = Velocity.getTemplate("user.html");
 					
 					

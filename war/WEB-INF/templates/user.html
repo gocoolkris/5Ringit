@@ -48,8 +48,8 @@
 						</tr>
 						#end
 					</table>
-					#end
-					#if($mode == "comments")
+					#else
+					<!--#if($mode == "comments")
 					#foreach( $comment in $comments )
 					<div class="entry">
 						<div class="entry-body">
@@ -58,14 +58,15 @@
 						<div class="entry-meta">in <a href="/entry?postID=$comment.getPostID()">$comment.getPostTitle()</a> $comment.getRalativePostedTime()</div>
 					</div>
 					#end
-					#else
+					#end-->
+					
 					#foreach( $entry in $entries )
 					<div class="entry">
 						<h4 class="entry-title"><a href="$entry.getLink()">$entry.getTitle()</a></h4>
 						<div class="entry-body">
 							$entry.getDesc()
 						</div>
-						<div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry?postID=$entry.getId()">Comment</a> ($entry.getCommentCount()) · <a class="like-link#if($entry.isLiked()) disabled#end" href="/voting?vote=like&postID=$entry.getId()">Like#if($entry.isLiked())d#end</a> (<span class="count">$entry.getLikeCount()</span>) · <a class="dislike-link#if($entry.isDisliked()) disabled#end" href="/voting?vote=dislike&postID=$entry.getId()">Dislike#if($entry.isDisliked())d#end</a> (<span class="count">$entry.getDislikeCount()</span>)</div>
+						<div class="entry-meta">Submited by <a href="/user?username=$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() <a href="/entry?postID=$entry.getId()">Comment</a> ($entry.getCommentCount()) <a class="like-link#if($entry.isLiked()) disabled#end" href="/voting?vote=like&postID=$entry.getId()">Like#if($entry.isLiked())d#end</a> (<span class="count">$entry.getLikeCount()</span>) <a class="dislike-link#if($entry.isDisliked()) disabled#end" href="/voting?vote=dislike&postID=$entry.getId()">Dislike#if($entry.isDisliked())d#end</a> (<span class="count">$entry.getDislikeCount()</span>)</div>
 					</div>
 					#end
 					#end
@@ -73,11 +74,11 @@
 						<ul>
 							#set( $prevPage = $currentPage - 1 )
 							#set( $nextPage = $currentPage + 1 )
-							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage&username=$userName#end">«</a></li>
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage&username=$userName#end"></a></li>
 							#foreach( $page in $pages )
 							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page&username=$userName">$page</a></li>
 							#end
-							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage&username=$userName#end">»</a></li>
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage&username=$userName#end"></a></li>
 							
 						</ul>
 					</div>
@@ -106,4 +107,5 @@
 					</ul>
 				</div>
 			</div>
+			
 #parse( "tail.html" )
