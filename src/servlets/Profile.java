@@ -8,6 +8,7 @@ import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
+import service.LikeDislikeService;
 import service.PostService;
 import service.UserService;
 
@@ -29,6 +30,7 @@ public class Profile extends VelocityServlet {
 		 
 		 
 		 String userName = request.getParameter("username");
+		 String mode = request.getParameter("mode");
 		 HttpSession session = request.getSession();
 		 
 		 int pageNum = 1;
@@ -49,8 +51,25 @@ public class Profile extends VelocityServlet {
 			  e.printStackTrace();
 		  }
 		  UserService userService = new UserService();
+		  LikeDislikeService ldService = new LikeDislikeService();
 		  
-		  ArrayList<Post> posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));		  
+		  ArrayList<AthleteDataObject> athleteInfo = null;
+		  ArrayList<Post> posts;
+		  if(mode.equals("posts")) {
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("likes")) {
+			  posts = ldService.getLikePostsByUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("dislikes")) {
+			  posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("comments")) {
+			  posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("attributes")) {
+			  UserService userService = new UserService();
+			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
+		  }
+		  else {
+			  System.out.println("mode = "+mode);
+		  }
 		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
 	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
 	   	  
@@ -130,6 +149,7 @@ public class Profile extends VelocityServlet {
 					context.put("followingList", followingList);
 					context.put("entries", entriesPage);
 					context.put("followerList", followerList);
+					context.put("attributes", athleteInfo);
 					template = Velocity.getTemplate("user.html");
 					
 					
