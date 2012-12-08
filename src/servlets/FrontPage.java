@@ -29,6 +29,7 @@ public class FrontPage extends VelocityServlet {
 		 String order = request.getParameter("order");
 		 String loginSuccess = request.getParameter("login");		 
 		 String msg = request.getParameter("msg");
+		 String signup = request.getParameter("signup");
 		 
 		 String alertMessage = null;
 		 
@@ -39,7 +40,13 @@ public class FrontPage extends VelocityServlet {
 		 if(loginSuccess!=null && loginSuccess.equals("fail")) {
 			 alertMessage = "Not logged in. Please try again";
 		 }
-		 
+		 if(signup!=null) {
+			 if(signup.equals("success")) {
+				 alertMessage = "Thank you for sign up!";
+			 }else if(signup.equals("fail")) {
+				 alertMessage = "Please try again";
+			 }
+		 }
 		 HttpSession session = request.getSession();
 		 String currentUser = null;
 		 
