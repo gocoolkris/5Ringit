@@ -8,12 +8,14 @@ import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
+import service.CommentService;
 import service.LikeDislikeService;
 import service.PostService;
 import service.UserService;
 
 import javax.servlet.http.*;
 import frontEndObject.Entry;
+import frontEndObject.TmpAthleteData;
 import databaseobject.Post;
 import databaseobject.User;
 
@@ -52,17 +54,20 @@ public class Profile extends VelocityServlet {
 		  }
 		  UserService userService = new UserService();
 		  LikeDislikeService ldService = new LikeDislikeService();
+		  CommentService commentService = new CommentService();
 		  
-		  ArrayList<AthleteDataObject> athleteInfo = null;
+		  
+		  /**
+		  ArrayList<TmpAthleteData> athleteInfo = null;
 		  ArrayList<Post> posts;
 		  if(mode.equals("posts")) {
 			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("likes")) {
-			  posts = ldService.getLikedPostsByUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getAllLikedPostforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("dislikes")) {
-			  posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getAllDisLikedPostforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("comments")) {
-			  posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
+			  posts = commentService.getAllCommentedPostforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("attributes")) {
 			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
 		  }
@@ -70,6 +75,8 @@ public class Profile extends VelocityServlet {
 			  System.out.println("mode = "+mode);
 			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }
+		  		  
+		  
 		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
 	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
 	   	  
@@ -88,20 +95,18 @@ public class Profile extends VelocityServlet {
 				   }
 			   }
 			   entries.add(e);
-	   	  }
-	   		
-			   
+	   	  }	
+		 */
 		  
-		 
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
-		 /**
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
 			 entries.add(Entry.getFakeEntry(i));			
 		 }
-		 */
+		 
+		 ArrayList<TmpAthleteData> athleteInfo = TmpAthleteData.getFakeAthleteData(10);
 		 //end
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
@@ -123,7 +128,6 @@ public class Profile extends VelocityServlet {
 		 
 		
 		//faking followingList
-		
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
@@ -132,7 +136,6 @@ public class Profile extends VelocityServlet {
 			followingList.add(followed);
 			followerList.add(follower);
 		}
-		
 		//end
 
 		

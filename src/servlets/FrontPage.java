@@ -149,22 +149,24 @@ public class FrontPage extends VelocityServlet {
 		
 		UserService userService = new UserService();
 		
+		/**
 		ArrayList<User> userList;
 		if(currentUser == null) {
 			userList = userService.getNewUsers(userListNum);
 		}else {
 			User user = userService.getUserbyUsername(currentUser);
-			userList = userService.getRecommendedFriends(user);
+			//userList = userService.getRecommendedFriends(user);
 		}
+		*/
 		
 		
 		//creating fake userList;
-		/**
+		
 		ArrayList<User> userList = new ArrayList <User> ();
 		for(int i=0; i<userListNum; i++) {
 			userList.add(new User("david", "david"));
 		}
-		*/
+		
 		//end
 		
 		Template template = null;
