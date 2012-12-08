@@ -35,7 +35,7 @@ public class NewComment extends HttpServlet{
 				User currentUser = userService.getUserbyUsername(username);
 				
 				System.out.println(username + " is trying to comment");
-				Comment newComment = new Comment(currentUser.getUsrId(), postID, content);
+				Comment newComment = new Comment(currentUser.getUsrid(), postID, content);
 				CommentService commentService = new CommentService();
 				boolean commentSuccess = commentService.saveComment(newComment);
 				if(commentSuccess) {

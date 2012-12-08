@@ -15,7 +15,7 @@ public class LikeDislikeService {
 		try{
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postlike(usrid,pid,liketime)");
-		sql.append("values("+user.getUsrId());
+		sql.append("values("+user.getUsrid());
 		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;//TODO check if key already exist
@@ -29,7 +29,7 @@ public class LikeDislikeService {
 		try{
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into postdislike(usrid,pid,disliketime)");
-		sql.append("values("+user.getUsrId());
+		sql.append("values("+user.getUsrid());
 		sql.append(",'"+post.getPid()+"',");
 		sql.append("CURRENT_TIMESTAMP)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString())==1;
@@ -115,6 +115,59 @@ public class LikeDislikeService {
 			ex.printStackTrace();
 		}
 		return dislikecount;
+	}
+	public ArrayList<Post> getAllLikedPostforUser(User user)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where pid in(");
+		sql.append("select pid from postlike where usrid=");
+		sql.append(user.getUsrid());
+		sql.append(")");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<Post> getAllDisLikedPostforUser(User user)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where pid in(");
+		sql.append("select pid from postdislike where usrid=");
+		sql.append(user.getUsrid());
+		sql.append(")");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
 	}
 }
 

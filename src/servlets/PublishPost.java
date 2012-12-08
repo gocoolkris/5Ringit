@@ -32,7 +32,7 @@ public class PublishPost extends VelocityServlet{
 				String usrname = (String) session.getAttribute("username");
 				UserService usrService = new UserService();
 				User usr = usrService.getUserbyUsername(usrname);
-				int usrid = usr.getUsrId();
+				int usrid = usr.getUsrid();
 				String newEntryTitle = request.getParameter("new-entry-title");
 				String newEntryUrl =  request.getParameter("new-entry-url");
 				String newPostDescription = request.getParameter("new-post-description");
