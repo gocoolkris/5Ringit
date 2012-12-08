@@ -92,7 +92,7 @@ public class CommentService {
 	public ArrayList<Comment> getCommentsForUser(User user){
 		
 		String query = "SELECT * FROM COMMENTS WHERE USRID=%d;";
-		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrid()));
+		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrId()));
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		try{
 			while(rs.next()){
@@ -133,30 +133,24 @@ public class CommentService {
 		return count;
 	}
 	
-	public ArrayList<Post> getAllCommentedPostforUser(User user)
-	{
-		ArrayList<Post> list=new ArrayList<Post>();
-		StringBuffer sql=new StringBuffer();
-		sql.append("select * from post where pid in(");
-		sql.append("select pid from comments where usrid=");
-		sql.append(user.getUsrid());
-		sql.append(")");
+	
+	public ArrayList<Integer> getPostIdsByUser(User usr){
+		
+		ArrayList<Integer> postids = new ArrayList<Integer>();
+		String query = "SELECT PID FROM COMMENTS WHERE USRID=%d";
 		try{
-			ResultSet set=DBUtil.executeQuery(sql.toString());
-			while(set.next()){
-				Post post=new Post();
-				post.setPid(set.getInt("pid"));
-				post.setUsrid(set.getInt("usrid"));
-				post.setTitle(set.getString("title"));
-				post.setDesc(set.getString("description"));
-				post.setLink(set.getString("lnk"));
-				post.setTime(set.getTimestamp("posttime"));
-				post.setScore(set.getFloat("score"));		
-				list.add(post);
+			ResultSet rs = DBUtil.executeQuery(String.format(query,usr.getUsrId()));
+			while(rs.next()){
+				
+				int pid = rs.getInt("PID");
+				postids.add(pid);
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
+			
+			return postids;
 		}
-		return list;
+		catch(Exception e){}
+		return null;
 	}
+	
+	
 }

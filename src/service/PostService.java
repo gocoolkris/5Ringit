@@ -153,7 +153,7 @@ public class PostService {
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from post where usrid=");
-		sql.append(user.getUsrid());
+		sql.append(user.getUsrId());
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
