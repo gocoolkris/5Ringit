@@ -20,7 +20,7 @@ public class UserService {
 			while(rs.next()){
 			
 				usr = new User();
-				usr.setUsrId(rs.getInt("USRID"));
+				usr.setUsrid(rs.getInt("USRID"));
 				usr.setUsername(rs.getString("UNAME"));
 				usr.setPassword(rs.getString("PASSWRD"));
 				newUsers.add(usr);
@@ -79,7 +79,7 @@ public class UserService {
 		try{
 			ResultSet rs = DBUtil.executeQuery(String.format(query, username));
 			while(rs.next()){
-				usrobj.setUsrId(rs.getInt("USRID"));
+				usrobj.setUsrid(rs.getInt("USRID"));
 				usrobj.setUsername(rs.getString("UNAME"));
 				usrobj.setPassword(rs.getString("PASSWRD"));
 				return usrobj;
@@ -93,7 +93,7 @@ public class UserService {
 		
 		ArrayList<User> followingList = new ArrayList<User>();
 
-		int usrid = getUserbyUsername(username).getUsrId();
+		int usrid = getUserbyUsername(username).getUsrid();
 
 		String query = "SELECT FOLLOWERID FROM FOLLOWERLIST WHERE FOLLOWEEID=%d";
 
@@ -116,7 +116,7 @@ public class UserService {
 
 		HashSet<Integer> followees = new HashSet<Integer>();
 		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
-		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrId()));
+		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrid()));
 		try{
 			while(rs.next()){
 				followees.add(rs.getInt("FOLLOWEEID"));
@@ -130,7 +130,7 @@ public class UserService {
 	public ArrayList<User> getFolloweeList(User user){
 		ArrayList<User> followeesList = new ArrayList<User>();
 
-		int usrid = getUserbyUsername(user.getUsername()).getUsrId();
+		int usrid = getUserbyUsername(user.getUsername()).getUsrid();
 
 		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
 
@@ -156,7 +156,7 @@ public class UserService {
 			String query = "SELECT * FROM USERLIST WHERE USRID=%d";
 			ResultSet rs = DBUtil.executeQuery(String.format(query, usrid));
 			while(rs.next()){
-				usr.setUsrId(rs.getInt("usrid"));
+				usr.setUsrid(rs.getInt("usrid"));
 				usr.setUsername(rs.getString("uname"));
 				usr.setPassword("passwd");
 				break;

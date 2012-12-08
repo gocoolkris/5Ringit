@@ -28,8 +28,12 @@ public class CommentsPage extends VelocityServlet {
            HttpServletResponse response,
             	Context context ) {
 		 
-		 
+		 String alertMessage = null;
 		 String currentUser = null;
+		 String newComment = request.getParameter("newcomment");
+		 if(newComment != null && newComment.equals("fail")) {
+			 alertMessage = "Illegal comment. Please try again.";
+		 }
 		 HttpSession session = request.getSession();
 		 if(session.getAttribute("username")!=null) {
 			 currentUser = (String)session.getAttribute("username");
@@ -39,20 +43,25 @@ public class CommentsPage extends VelocityServlet {
 		 Template template = null;
 		 
 		 String postID = request.getParameter("postID");
-		 System.out.println("postID:" + postID);
+		 System.out.println("commentPage postID:" + postID);
 		 
-		 /**
-		  PostService postService = new PostService();
+		 PostService postService = null;
+		 try {
+			 postService = new PostService();
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
 		  CommentService commentService = new CommentService();
 		  Post post = postService.getPostById(Integer.parseInt(postID));
+		  System.out.println("get comments for:" + postID + " title:" + post.getTitle());
 		  
 		  Entry entry = new Entry(post);
-		  ArrayList<Comment> comments = commentService.getCommentsforPost(post, 100);
-		   */
+		  ArrayList<Comment> comments = commentService.getCommentsForPost(post, commentNumLimit);
+		  ArrayList<CommentEntry> commentEntries = CommentEntry.getCommentEntries(comments);
 		  
 		 
 		 //faking entry object
-		 
+		 /**
 		 Date now = new Date();
 		 long nowTime = now.getTime();
 		 Entry entry = new Entry("title", "Description", "URL://url.com", "Wei Dai", nowTime, 100, 100);
@@ -61,14 +70,15 @@ public class CommentsPage extends VelocityServlet {
 		 for(int i=0; i<commentNumLimit; i++) {
 			 comments.add(new CommentEntry("JK rowling", "IJIJINNIHIJIJI"));
 		 }
-		 
+		 */
 		 //end
 			
 			try {
 							
 					context.put("entry", entry);
 					context.put("currentUser", currentUser);
-					context.put("comments", comments);
+					context.put("comments", commentEntries);
+					context.put("alertMessage", alertMessage);
 					template = Velocity.getTemplate("entry.html");
 					
 					

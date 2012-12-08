@@ -8,11 +8,14 @@ import org.apache.velocity.servlet.VelocityServlet;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
+import service.CommentService;
+import service.LikeDislikeService;
 import service.PostService;
 import service.UserService;
 
 import javax.servlet.http.*;
 import frontEndObject.Entry;
+import frontEndObject.TmpAthleteData;
 import databaseobject.Post;
 import databaseobject.User;
 
@@ -29,6 +32,7 @@ public class Profile extends VelocityServlet {
 		 
 		 
 		 String userName = request.getParameter("username");
+		 String mode = request.getParameter("mode");
 		 HttpSession session = request.getSession();
 		 
 		 int pageNum = 1;
@@ -49,15 +53,37 @@ public class Profile extends VelocityServlet {
 			  e.printStackTrace();
 		  }
 		  UserService userService = new UserService();
+		  LikeDislikeService ldService = new LikeDislikeService();
+		  CommentService commentService = new CommentService();
 		  
-		  ArrayList<Post> posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));		  
+		  
+		  /**
+		  ArrayList<TmpAthleteData> athleteInfo = null;
+		  ArrayList<Post> posts;
+		  if(mode.equals("posts")) {
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("likes")) {
+			  posts = ldService.getAllLikedPostforUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("dislikes")) {
+			  posts = ldService.getAllDisLikedPostforUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("comments")) {
+			  posts = commentService.getAllCommentedPostforUser(userService.getUserbyUsername(userName));
+		  }else if(mode.equals("attributes")) {
+			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
+		  }
+		  else {
+			  System.out.println("mode = "+mode);
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
+		  }
+		  		  
+		  
 		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
 	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
 	   	  
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   System.out.println("postIDVote:"+postIDVote);
+			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {
@@ -69,20 +95,18 @@ public class Profile extends VelocityServlet {
 				   }
 			   }
 			   entries.add(e);
-	   	  }
-	   		
-			   
+	   	  }	
+		 */
 		  
-		 
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
-		 /**
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
 			 entries.add(Entry.getFakeEntry(i));			
 		 }
-		 */
+		 
+		 ArrayList<TmpAthleteData> athleteInfo = TmpAthleteData.getFakeAthleteData(10);
 		 //end
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
@@ -97,14 +121,13 @@ public class Profile extends VelocityServlet {
 		for(int i=1; i<=totalNumOfPages; i++) {
 			pages[i-1] = i;
 		}
-		
+		/**
 		 ArrayList<User> followingList = userService.getFollowingList(userName);
 		 ArrayList<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName));
-		  
+		 */
 		 
 		
 		//faking followingList
-		/*
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
 		for(int i=0; i<followingListLimit; i++) {
@@ -113,7 +136,6 @@ public class Profile extends VelocityServlet {
 			followingList.add(followed);
 			followerList.add(follower);
 		}
-		*/
 		//end
 
 		
@@ -130,6 +152,7 @@ public class Profile extends VelocityServlet {
 					context.put("followingList", followingList);
 					context.put("entries", entriesPage);
 					context.put("followerList", followerList);
+					context.put("attributes", athleteInfo);
 					template = Velocity.getTemplate("user.html");
 					
 					

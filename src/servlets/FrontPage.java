@@ -29,9 +29,12 @@ public class FrontPage extends VelocityServlet {
 		 String order = request.getParameter("order");
 		 String loginSuccess = request.getParameter("login");		 
 		 String msg = request.getParameter("msg");
+		 String signup = request.getParameter("signup");
 		 
 		 String alertMessage = null;
-		 
+		 if(msg!=null&&msg.equals("unloggedin")) {
+			 alertMessage = "Please login first.Thanks";
+		 }
 		 if(msg!=null&&msg.equals("voted")) {
 			 alertMessage = "You already voted for this post. Thanks.";
 		 }
@@ -39,7 +42,13 @@ public class FrontPage extends VelocityServlet {
 		 if(loginSuccess!=null && loginSuccess.equals("fail")) {
 			 alertMessage = "Not logged in. Please try again";
 		 }
-		 
+		 if(signup!=null) {
+			 if(signup.equals("success")) {
+				 alertMessage = "Thank you for sign up!";
+			 }else if(signup.equals("fail")) {
+				 alertMessage = "Please try again";
+			 }
+		 }
 		 HttpSession session = request.getSession();
 		 String currentUser = null;
 		 
@@ -85,7 +94,7 @@ public class FrontPage extends VelocityServlet {
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   System.out.println("postIDVote:"+postIDVote);
+			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {
@@ -137,22 +146,32 @@ public class FrontPage extends VelocityServlet {
 			pages[i-1] = i;
 		}
 		
-		/**
+		
 		UserService userService = new UserService();
-		ArrayList<User> userList = userService.getNewUsers(userListNum);
+		
+		/**
+		ArrayList<User> userList;
+		if(currentUser == null) {
+			userList = userService.getNewUsers(userListNum);
+		}else {
+			User user = userService.getUserbyUsername(currentUser);
+			//userList = userService.getRecommendedFriends(user);
+		}
 		*/
 		
+		
 		//creating fake userList;
+		
 		ArrayList<User> userList = new ArrayList <User> ();
 		for(int i=0; i<userListNum; i++) {
 			userList.add(new User("david", "david"));
 		}
+		
 		//end
 		
 		Template template = null;
 				
 		try {
-						
 				
 				context.put("entries", entriesPage);
 				//context.put("alertMessage", "psw invalid");
@@ -165,7 +184,6 @@ public class FrontPage extends VelocityServlet {
 				context.put("alertMessage", alertMessage);
 				context.put("order", order);
 				template = Velocity.getTemplate("index.html");
-				
 				
 			} catch( Exception e ) {
 				 System.err.println("Exception caught: " + e.getMessage());
