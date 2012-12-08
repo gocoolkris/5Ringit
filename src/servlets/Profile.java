@@ -58,13 +58,13 @@ public class Profile extends VelocityServlet {
 		  if(mode.equals("posts")) {
 			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("likes")) {
-			  //posts = ldService.getLikePostsByUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getLikedPostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("dislikes")) {
-			  //posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getDislikePostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("comments")) {
-			  //posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getCommenttedPostsByUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("attributes")) {
-			  //athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
+			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
 		  }
 		  else {
 			  System.out.println("mode = "+mode);
