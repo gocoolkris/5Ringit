@@ -32,7 +32,9 @@ public class FrontPage extends VelocityServlet {
 		 String signup = request.getParameter("signup");
 		 
 		 String alertMessage = null;
-		 
+		 if(msg!=null&&msg.equals("unloggedin")) {
+			 alertMessage = "Please login first.Thanks";
+		 }
 		 if(msg!=null&&msg.equals("voted")) {
 			 alertMessage = "You already voted for this post. Thanks.";
 		 }

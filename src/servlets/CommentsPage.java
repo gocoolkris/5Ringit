@@ -39,7 +39,7 @@ public class CommentsPage extends VelocityServlet {
 		 Template template = null;
 		 
 		 String postID = request.getParameter("postID");
-		 System.out.println("postID:" + postID);
+		 System.out.println("commentPage postID:" + postID);
 		 
 		 PostService postService = null;
 		 try {
@@ -52,7 +52,7 @@ public class CommentsPage extends VelocityServlet {
 		  System.out.println("get comments for:" + postID + " title:" + post.getTitle());
 		  
 		  Entry entry = new Entry(post);
-		  ArrayList<Comment> comments = commentService.getCommentsForPost(post, 100);
+		  ArrayList<Comment> comments = commentService.getCommentsForPost(post, commentNumLimit);
 		  ArrayList<CommentEntry> commentEntries = CommentEntry.getCommentEntries(comments);
 		  
 		 

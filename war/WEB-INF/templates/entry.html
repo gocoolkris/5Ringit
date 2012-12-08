@@ -19,15 +19,15 @@
 						<div class="entry-body">
 							$comment.getContent()
 						</div>
-						<div class="entry-meta">by <a href="/user/$comment.getAuthor()">$comment.getAuthor()</a> $comment.getRalativePostedTime()</div>
+						<div class="entry-meta">by <a href="/user?username=$comment.getAuthor()">$comment.getAuthor()</a> $comment.getRalativePostedTime()</div>
 					</div>
 					#end
 					<div class="well">
 						#if($currentUser)
 						<!-- <legend>Submit a link</legend> -->
 						<form name="form-newcomment" action="/newcomment" method="post" style="margin-bottom: 0;">
-							<input name="post-id" type="hidden" value="$entry.getId()">
-							<textarea name="comment-content" class="input-block-level" rows="3" placeholder="Comment" style="resize:vertical;"></textarea>
+							<input name="session-id" type="hidden" value="#!sessionId">
+							<textarea class="input-block-level" rows="3" placeholder="Comment" style="resize:vertical;"></textarea>
 							<button type="submit" class="btn btn-info">Post new comment</button>
 						</form>
 						#end
