@@ -34,6 +34,7 @@ public class Profile extends VelocityServlet {
 		 String userName = request.getParameter("username");
 		 String mode = request.getParameter("mode");
 		 HttpSession session = request.getSession();
+		 boolean hasAttribute = false;
 		 
 		 int pageNum = 1;
 		 String pageString = request.getParameter("page");
@@ -44,6 +45,15 @@ public class Profile extends VelocityServlet {
 		 String currentUser = null;
 		 if(!session.isNew() && session.getAttribute("username")!=null) {
 			 currentUser = (String)session.getAttribute("username"); 
+			 hasAttribute = true;
+			 
+		 }else {
+			 try {
+				 response.sendRedirect("/index?msg=unloggedin");
+				 return null;
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
 		 }
 		 
 		  PostService postService = null;
@@ -153,6 +163,7 @@ public class Profile extends VelocityServlet {
 					context.put("entries", entriesPage);
 					context.put("followerList", followerList);
 					context.put("attributes", athleteInfo);
+					context.put("hasAttribute", hasAttribute);
 					template = Velocity.getTemplate("user.html");
 					
 					

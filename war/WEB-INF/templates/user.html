@@ -22,26 +22,26 @@
 				<div id="entry-list" class="span8">
 					<ul class="nav nav-tabs">
 						<li class="#if ($mode == "posts")active#end">
-							<a href=".">Submitted Links</a>
+							<a href="?mode=posts&username=$userName">Submitted Posts</a>
 						</li>
 						<li class="#if ($mode == "likes")active#end">
-							<a href="?mode=likes">Likes</a>
+							<a href="?mode=likes&username=$userName">Liked Posts</a>
 						</li>
 						<li class="#if ($mode == "dislikes")active#end">
-							<a href="?mode=dislikes">Dislikes</a>
+							<a href="?mode=dislikes&username=$userName">Disliked Posts</a>
 						</li>
 						<li class="#if ($mode == "comments")active#end">
-							<a href="?mode=comments">Comments</a>
+							<a href="?mode=comments&username=$userName">Commented Posts</a>
 						</li>
 						#if($hasAttribute)
 						<li class="#if ($mode == "attributes")active#end">
-							<a href="?mode=attributes">Athlete Profile</a>
+							<a href="?mode=attributes&username=$userName">Athlete Profile</a>
 						</li>
 						#end
 					</ul>
 					#if($mode == "attributes")
 					<table class="table">
-						$foreach($attr in $attributes)
+						#foreach($attr in $attributes)
     					<tr>
     						<td class="attr-key">$attr.getKey()</td>
     						<td class="attr-value">$attr.getValue()</td>

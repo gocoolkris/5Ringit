@@ -22,12 +22,14 @@ public class Login extends HttpServlet  {
 		
 		UserService userService= new UserService();
 		
-		
+		//real login
+		/**
 		User passedUser = userService.login(username, psw);
-		
+		*/
+		//end
 		
 		//fake object
-		//User passedUser = new User(psw, username);
+		User passedUser = new User(psw, username);
 		//end
 		
 		HttpSession session = request.getSession();
