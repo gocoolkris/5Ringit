@@ -9,6 +9,7 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 
 import service.CommentService;
+import service.FollowerService;
 import service.LikeDislikeService;
 import service.PostService;
 import service.UserService;
@@ -63,11 +64,12 @@ public class Profile extends VelocityServlet {
 			  e.printStackTrace();
 		  }
 		  UserService userService = new UserService();
+		  FollowerService fservice = new FollowerService();
 		  LikeDislikeService ldService = new LikeDislikeService();
 		  CommentService commentService = new CommentService();
 		  
-		  boolean followed = userService.isFollowing(userService.getUserbyUsername(currentUser), 
-				  userService.getUserbyUsername(userName);
+		  boolean followed = fservice.isfollowing(userService.getUserbyUsername(currentUser), 
+				  userService.getUserbyUsername(userName));
 
 		  
 		  /**
