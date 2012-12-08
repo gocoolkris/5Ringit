@@ -33,7 +33,22 @@
 						<li class="#if ($mode == "comments")active#end">
 							<a href="?mode=comments">Comments</a>
 						</li>
+						#if($hasAttribute)
+						<li class="#if ($mode == "attributes")active#end">
+							<a href="?mode=attributes">Althlete Profile</a>
+						</li>
+						#end
 					</ul>
+					#if($mode == "attributes")
+					<table class="table">
+						$foreach($attr in $attributes)
+    					<tr>
+    						<td class="attr-key">$attr.getKey()</td>
+    						<td class="attr-value">$attr.getValue()</td>
+						</tr>
+						#end
+					</table>
+					#end
 					#if($mode == "comments")
 					#foreach( $comment in $comments )
 					<div class="entry">
