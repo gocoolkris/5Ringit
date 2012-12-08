@@ -42,24 +42,13 @@ public class PublishPost extends VelocityServlet{
 				Timestamp timestamp = new Timestamp(now.getTime());
 				
 				Post newPost = new Post(usrid, newEntryTitle, newPostDescription, newEntryUrl, timestamp);
-				
-				
-				//User tmp= new User("david", "david");
-				
-				
-				
-				long currentTime = now.getTime();
 				Entry newEntry = new Entry(newPost);
-				
 				PostService postService = new PostService();
 				
-				
-				postService.save(newPost);
-				
+				//postService.save(newPost);
 				System.out.println(newEntryTitle + " saved");
 				
 				context.put("entry", newEntry);
-				
 				template = Velocity.getTemplate("entry.html");
 				
 				

@@ -152,7 +152,6 @@ public class FrontPage extends VelocityServlet {
 		Template template = null;
 				
 		try {
-						
 				
 				context.put("entries", entriesPage);
 				//context.put("alertMessage", "psw invalid");
@@ -165,7 +164,6 @@ public class FrontPage extends VelocityServlet {
 				context.put("alertMessage", alertMessage);
 				context.put("order", order);
 				template = Velocity.getTemplate("index.html");
-				
 				
 			} catch( Exception e ) {
 				 System.err.println("Exception caught: " + e.getMessage());
