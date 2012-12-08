@@ -1,6 +1,11 @@
 package frontEndObject;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import databaseobject.Comment;
+
+import service.UserService;
 
 
 public class CommentEntry {
@@ -41,7 +46,23 @@ public class CommentEntry {
 		
 	}
 	
+	public CommentEntry(Comment comment) {
+		UserService userService = new UserService();
+
+		 this.author = userService.getUserbyUsrid(comment.getUsrid()).getUsername();	  	
+		 this.content = comment.getContent();
+		this.postedTime = comment.getPosttime().getTime();
+  	
+	}
 	
+	  public static ArrayList<CommentEntry>getCommentEntries(ArrayList<Comment> comments) {
+  	
+		  ArrayList<CommentEntry> commentEntries = new ArrayList<CommentEntry>();
+		  for(int i=0;i<comments.size(); i++) {
+		      commentEntries.add(new CommentEntry(comments.get(i)));
+		  }
+		   return commentEntries;
+	}
 	
 
 }
