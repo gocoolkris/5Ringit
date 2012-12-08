@@ -28,8 +28,12 @@ public class CommentsPage extends VelocityServlet {
            HttpServletResponse response,
             	Context context ) {
 		 
-		 
+		 String alertMessage = null;
 		 String currentUser = null;
+		 String newComment = request.getParameter("newcomment");
+		 if(newComment != null && newComment.equals("fail")) {
+			 alertMessage = "Illegal comment. Please try again.";
+		 }
 		 HttpSession session = request.getSession();
 		 if(session.getAttribute("username")!=null) {
 			 currentUser = (String)session.getAttribute("username");
@@ -74,6 +78,7 @@ public class CommentsPage extends VelocityServlet {
 					context.put("entry", entry);
 					context.put("currentUser", currentUser);
 					context.put("comments", commentEntries);
+					context.put("alertMessage", alertMessage);
 					template = Velocity.getTemplate("entry.html");
 					
 					
