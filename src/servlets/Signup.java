@@ -28,14 +28,14 @@ public class Signup extends HttpServlet  {
 		}
 		
 		UserService userService= new UserService();
-		/**
+		
 		boolean signonSuccess= userService.saveNewUser(username, password);
-		**/
+		
 		System.out.println("saving new user...");
 		
 		
 		//fake signup
-		boolean signonSuccess = false;
+		//boolean signonSuccess = false;
 		//end
 		
 		HttpSession session = request.getSession();

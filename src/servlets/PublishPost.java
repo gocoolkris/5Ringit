@@ -45,7 +45,7 @@ public class PublishPost extends VelocityServlet{
 				Entry newEntry = new Entry(newPost);
 				PostService postService = new PostService();
 				
-				//postService.save(newPost);
+				postService.save(newPost);
 				System.out.println(newEntryTitle + " saved");
 				
 				context.put("entry", newEntry);

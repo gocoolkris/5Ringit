@@ -19,6 +19,7 @@ import frontEndObject.Entry;
 import frontEndObject.TmpAthleteData;
 import databaseobject.Post;
 import databaseobject.User;
+import frontEndObject.AtheleteObject;;
 
 public class Profile extends VelocityServlet {
 	
@@ -72,9 +73,9 @@ public class Profile extends VelocityServlet {
 				  userService.getUserbyUsername(userName));
 
 		  
-		  /**
-		  ArrayList<TmpAthleteData> athleteInfo = null;
-		  ArrayList<Post> posts;
+		  
+		  ArrayList<AtheleteObject> athleteInfo = null;
+		  ArrayList<Post> posts = null;
 		  if(mode.equals("posts")) {
 			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("likes")) {
@@ -84,7 +85,7 @@ public class Profile extends VelocityServlet {
 		  }else if(mode.equals("comments")) {
 			  posts = commentService.getAllCommentedPostforUser(userService.getUserbyUsername(userName));
 		  }else if(mode.equals("attributes")) {
-			  athleteInfo = userService.getAthleteInformation(userService.getUserbyUsername(userName));
+			  athleteInfo = userService.getProfileInformation(userService.getUserbyUsername(userName));
 		  }
 		  else {
 			  System.out.println("mode = "+mode);
@@ -111,10 +112,11 @@ public class Profile extends VelocityServlet {
 			   }
 			   entries.add(e);
 	   	  }	
-		 */
+		 
 		  
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
+	   	  /*
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 Date tmp = new Date();
 		 for (int i=0; i<totalPosts; i++) {
@@ -122,6 +124,7 @@ public class Profile extends VelocityServlet {
 		 }
 		 
 		 ArrayList<TmpAthleteData> athleteInfo = TmpAthleteData.getFakeAthleteData(10);
+		 */
 		 //end
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
