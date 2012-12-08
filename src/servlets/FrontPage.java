@@ -60,14 +60,14 @@ public class FrontPage extends VelocityServlet {
 		 int pageNum = 1;
 		 if(request.getParameter("page")!=null) {
 			 String page = (String)request.getParameter("page");
-			 System.out.println(page);
+			 System.out.println("getting page :" + page);
 			  pageNum = Integer.parseInt(page);
 		 }
 		 
 		 System.out.println(pageNum);
 		 
-		 		   		   
-		   
+		 //real data
+		   /**
 		   ArrayList<Post> posts;
 		   PostService postService = null;
 		   try {
@@ -107,18 +107,19 @@ public class FrontPage extends VelocityServlet {
 			   }
 			   entries.add(e);
 	   	  }
-	   		
-			   
+	   	  */
+		 //end
+		
 
 		 
 		 //create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
-		 /**
+		 
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 for (int i=0; i<totalPosts; i++) {
 			   Entry e = Entry.getFakeEntry(i);
 			   String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   System.out.println("postIDVote:"+postIDVote);
+			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {
@@ -132,8 +133,7 @@ public class FrontPage extends VelocityServlet {
 			   entries.add(e);
 		   }
 		 //end
-		  * 
-		  */
+		  
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
 		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
