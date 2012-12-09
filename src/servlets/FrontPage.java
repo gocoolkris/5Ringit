@@ -137,6 +137,7 @@ public class FrontPage extends VelocityServlet {
 		   }
 		 //end
 		  */
+		 
 		 /*
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
 		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
@@ -145,7 +146,7 @@ public class FrontPage extends VelocityServlet {
 		 */
 
 		//int totalNumOfPages = entries.size()/numPostsPerPage;
-	   	  int totalNumOfPages = postService.getTotalPostCount();
+	   	 int totalNumOfPages = postService.getTotalPostCount();
 	   	  
 //		int[] pages = new int[totalNumOfPages];
 //		for(int i=1; i<=totalNumOfPages; i++) {
@@ -160,7 +161,7 @@ public class FrontPage extends VelocityServlet {
 		}
 		
 		//real userList
-		/**
+		
 		UserService userService = new UserService();
 		
 		
@@ -171,16 +172,16 @@ public class FrontPage extends VelocityServlet {
 			User user = userService.getUserbyUsername(currentUser);
 			userList = userService.recommendFollowees(user);
 		}
-		*/
+		
 		//end
 		
 		//creating fake userList;
-		
+		/**
 		ArrayList<User> userList = new ArrayList <User> ();
 		for(int i=0; i<userListNum; i++) {
 			userList.add(new User("david", "david"));
 		}
-		
+		*/
 		//end
 		
 		Template template = null;
@@ -188,7 +189,6 @@ public class FrontPage extends VelocityServlet {
 		try {
 				
 				context.put("entries", entries);
-				//context.put("alertMessage", "psw invalid");
 				context.put("order", "latest");
 				context.put("currentPage", pageNum);
 				context.put("totalPages", totalNumOfPages);
