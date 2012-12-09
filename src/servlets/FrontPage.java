@@ -59,9 +59,6 @@ public class FrontPage extends VelocityServlet {
 			 }
 		 }
 		 
-		 
-		
-		 
 		 int pageNum = 1;
 		 if(request.getParameter("page")!=null) {
 			 String page = (String)request.getParameter("page");
@@ -72,9 +69,11 @@ public class FrontPage extends VelocityServlet {
 		 System.out.println(pageNum);
 		 
 		 //real data
-		  /**
+		  
 		   ArrayList<Post> posts;
 		   PostService postService = null;
+		   int start = numPostsPerPage*(pageNum-1)+1;
+		   int end = numPostsPerPage*pageNum;
 		   try {
 			   postService = new PostService();
 		   }catch(Exception e) {
@@ -84,13 +83,13 @@ public class FrontPage extends VelocityServlet {
 			   	if(currentUser!=null){
 			   		UserService userService = new UserService();
 			   		User user = userService.getUserbyUsername(currentUser);
-			   		posts = postService.getPostsRankbyScoreforUser(totalPosts, user);
+			   		posts = postService.getPostsRankbyScoreforUserwithinRange(start, end, user);
 			   		
 			   	}else {
-			   		posts = postService.getPostsRankbyScore(totalPosts);
+			   		posts = postService.getPostsRankbyScorewithinRange(start , end);
 			   	}
 		   }else{
-			   posts = postService.getPostsRankbyTime(totalPosts);
+			   posts = postService.getPostsRankbyTimewithinRange(start , end);
 		   }
 		   
 		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
@@ -99,7 +98,6 @@ public class FrontPage extends VelocityServlet {
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
-			   //System.out.println("postIDVote:"+postIDVote);
 			   e.setIsLiked(false);
 			   e.setIsDisliked(false);
 			   if(postIDVote!=null) {
@@ -112,14 +110,14 @@ public class FrontPage extends VelocityServlet {
 			   }
 			   entries.add(e);
 	   	  }
-	   	  */
+	   	  
 		 //end
 		
 
 		 
 		 //create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
-		 
+		 /*
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 for (int i=0; i<totalPosts; i++) {
 			   Entry e = Entry.getFakeEntry(i);
@@ -138,14 +136,17 @@ public class FrontPage extends VelocityServlet {
 			   entries.add(e);
 		   }
 		 //end
-		  
-		 
+		  */
+		 /*
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
 		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
 			 entriesPage.add(entries.get(i));
 		 }
+		 */
 
-		int totalNumOfPages = entries.size()/numPostsPerPage;
+		//int totalNumOfPages = entries.size()/numPostsPerPage;
+	   	  int totalNumOfPages = postService.getTotalPostCount();
+	   	  
 //		int[] pages = new int[totalNumOfPages];
 //		for(int i=1; i<=totalNumOfPages; i++) {
 //			pages[i-1] = i;
@@ -186,7 +187,7 @@ public class FrontPage extends VelocityServlet {
 				
 		try {
 				
-				context.put("entries", entriesPage);
+				context.put("entries", entries);
 				//context.put("alertMessage", "psw invalid");
 				context.put("order", "latest");
 				context.put("currentPage", pageNum);
