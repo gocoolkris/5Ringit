@@ -66,6 +66,23 @@ public class PostService {
 		}
 		return post;
 	}
+	
+	public int getTotalPostCount(){
+		StringBuffer sql=new StringBuffer();
+		sql.append("select count(*) as postcount from post");
+		int postcount=0;
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				postcount=set.getInt("postcount");			
+				break;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return postcount;
+	}
+	
 	public ArrayList<Post> getAllPosts(){
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
@@ -162,7 +179,7 @@ public class PostService {
 	public ArrayList<Post> getPostsRankbyScorewithinRange(int start,int end){//TODO
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from postpopular where rownum>");
+		sql.append("select * from postpopular where rownum>=");
 		sql.append(start);
 		sql.append(" and rownum <");
 		sql.append(end);
@@ -201,7 +218,7 @@ public class PostService {
 	public ArrayList<Post> getPostsRankbyTimewithinRange(int start,int end){
 		ArrayList<Post> list=new ArrayList<Post>();
 		StringBuffer sql=new StringBuffer();
-		sql.append("select * from postlatest where rownum>");
+		sql.append("select * from postlatest where rownum>=");
 		sql.append(start);
 		sql.append(" and rownum <");
 		sql.append(end);
