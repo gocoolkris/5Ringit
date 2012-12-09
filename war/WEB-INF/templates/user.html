@@ -74,11 +74,15 @@
 						<ul>
 							#set( $prevPage = $currentPage - 1 )
 							#set( $nextPage = $currentPage + 1 )
-							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage&username=$userName#end"></a></li>
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage&username=$userName#end">«</a></li>
 							#foreach( $page in $pages )
-							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page&username=$userName">$page</a></li>
+							#if( $page == 0)
+							<li class="disabled"><a>…</a></li>
+							#else
+							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
 							#end
-							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage&username=$userName#end"></a></li>
+							#end
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage&username=$userName#end">»</a></li>
 							
 						</ul>
 					</div>
