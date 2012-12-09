@@ -36,10 +36,46 @@
 				text-align: right;
 				font-weight: bold;
 			}
+<<<<<<< HEAD
      .limited {	
         max-height: 200px;	
         overflow: hidden;
       }
+=======
+			.limited {
+				max-height: 200px;
+				overflow: hidden;
+			}
+			.page-header {
+				padding-bottom: 0px;
+				border-bottom: 0px;
+			}
+			.color-bars {
+				padding-top: 10px;
+				width: 100%;
+			}
+			.color-bars div {
+				border-bottom: 4px solid;
+				float: left;
+				width: 20%;
+			}
+			.blue { color: #0185c7; }
+			.yellow { color: #f4c33d; }
+			.black { color: #000000; }
+			.green { color: #009f3d; }
+			.red { color: #df0024; }
+
+			.ring {
+				display: inline-block;
+				padding: 3px;
+				-webkit-border-radius: 8px;
+				-moz-border-radius: 8px;
+				border-radius: 8px;
+				border: 3px solid;
+				position: relative;
+				top: 1px;
+			}
+>>>>>>> e3c53ce2f635650013f76b96126a78f57777d374
 		</style>
 
 	</head>
@@ -123,7 +159,14 @@
 						Welcome, <a href="/user?username=$currentUser">$currentUser</a>! <a href="/logout">Log out</a>
 						#end
 					</div>
-					<div class="">
-          				<h1><a href="/index">5RingIt</a></h1>
+					<div>
+          				<h1><a href="/index">5RingIt</a><span class="blue">°</span><span class="yellow">°</span><span class="black">°</span><span class="green">°</span><span class="red">°</span></h1>
+          			</div>
+          			<div class="color-bars">
+          				<div class="blue"></div>
+          				<div class="yellow"></div>
+          				<div class="black"></div>
+          				<div class="green"></div>
+          				<div class="red"></div>
           			</div>
         	</div>

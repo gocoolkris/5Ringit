@@ -12,6 +12,7 @@
 				}
 				return false;
 			});
+<<<<<<< HEAD
 			
       // view more link for user lists 
       $('ul.user-list').each(function(index){
@@ -25,6 +26,52 @@
         $(this).hide();
         return false;
       });
+=======
+
+			// spice up user list
+			$('ul.user-list a').each(function(index) {
+				var text = $(this).text();
+				// console.log(text);
+				var sum = 0;
+				for (var i = 0; i < text.length; i++) {
+					sum += text.charCodeAt(i);
+				}
+				// console.log(sum % 5);
+				var cls = "black";
+				switch(sum % 5) {
+					case 0:
+						cls = "blue";
+						break;
+					case 1:
+						cls = "yellow";
+						break;
+					case 2:
+						cls = "black";
+						break;
+					case 3:
+						cls = "green";
+						break;
+					case 4:
+						cls = "red";
+						break;
+				}
+				$(this).prev("span.ring").addClass(cls);
+			});
+
+			// view more link for user lists 
+			$('ul.user-list').each(function(index){
+				if ($(this).children().length > 10) {
+					$(this).after('<a class="view-all-user" href="">View all…</a>');
+				}
+			});
+
+			$("body").on("click", "a.view-all-user", function(){
+				$(this).prev("ul.user-list").removeClass("limited");
+				$(this).hide();
+				return false;
+			});
+
+>>>>>>> e3c53ce2f635650013f76b96126a78f57777d374
 		}
 
 		function vote(link) {
