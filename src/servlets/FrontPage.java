@@ -21,7 +21,7 @@ public class FrontPage extends VelocityServlet {
 	
 	 private final int numPostsPerPage = 10;
 	 private final int totalPosts = 100;
-	 private final int userListNum = 10;
+	 private final int userListNum = 30;
 	 public Template handleRequest( HttpServletRequest request,
            HttpServletResponse response,
             	Context context ) {
@@ -72,7 +72,7 @@ public class FrontPage extends VelocityServlet {
 		 System.out.println(pageNum);
 		 
 		 //real data
-		   
+		  /**
 		   ArrayList<Post> posts;
 		   PostService postService = null;
 		   try {
@@ -112,14 +112,14 @@ public class FrontPage extends VelocityServlet {
 			   }
 			   entries.add(e);
 	   	  }
-	   	  
+	   	  */
 		 //end
 		
 
 		 
 		 //create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
-		 /*
+		 
 		 ArrayList<Entry> entries = new ArrayList<Entry>();
 		 for (int i=0; i<totalPosts; i++) {
 			   Entry e = Entry.getFakeEntry(i);
@@ -138,7 +138,7 @@ public class FrontPage extends VelocityServlet {
 			   entries.add(e);
 		   }
 		 //end
-		  */
+		  
 		 
 		 ArrayList<Entry> entriesPage = new ArrayList<Entry>();
 		 for(int i=numPostsPerPage*(pageNum-1); i<numPostsPerPage*pageNum; i++) {
@@ -158,7 +158,8 @@ public class FrontPage extends VelocityServlet {
 	
 		}
 		
-		
+		//real userList
+		/**
 		UserService userService = new UserService();
 		
 		
@@ -169,16 +170,16 @@ public class FrontPage extends VelocityServlet {
 			User user = userService.getUserbyUsername(currentUser);
 			userList = userService.recommendFollowees(user);
 		}
-		
-		
+		*/
+		//end
 		
 		//creating fake userList;
-		/*
+		
 		ArrayList<User> userList = new ArrayList <User> ();
 		for(int i=0; i<userListNum; i++) {
 			userList.add(new User("david", "david"));
 		}
-		*/
+		
 		//end
 		
 		Template template = null;

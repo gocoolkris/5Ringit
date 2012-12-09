@@ -1,5 +1,4 @@
-
-		<!-- /container -->
+<!-- /container -->
 		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
@@ -12,21 +11,6 @@
 				}
 				return false;
 			});
-<<<<<<< HEAD
-			
-      // view more link for user lists 
-      $('ul.user-list').each(function(index){
-        if ($(this).children().length > 5) {
-          $(this).after('<a class="view-all-user" href="">View all…</a>');
-        }
-      });	
-       $("body").on("click", "a.view-all-user", function(){
-       $(this).prev("ul.user-list").removeClass("limited");
-
-        $(this).hide();
-        return false;
-      });
-=======
 
 			// spice up user list
 			$('ul.user-list a').each(function(index) {
@@ -61,7 +45,7 @@
 			// view more link for user lists 
 			$('ul.user-list').each(function(index){
 				if ($(this).children().length > 10) {
-					$(this).after('<a class="view-all-user" href="">View all…</a>');
+					$(this).after('<a class="view-all-user" href="">View all�</a>');
 				}
 			});
 
@@ -71,7 +55,6 @@
 				return false;
 			});
 
->>>>>>> e3c53ce2f635650013f76b96126a78f57777d374
 		}
 
 		function vote(link) {
