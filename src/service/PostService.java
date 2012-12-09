@@ -116,6 +116,8 @@ public class PostService {
 	}
 	
 	
+	
+	
 	public ArrayList<Post> getPostsRankbyScoreforUser(int num,User user){//TODO
 		ArrayList<Post> list=getPostsRankbyScore(num);
 		HashSet<Integer> followeelist=us.getFolloweeListAsUserIdList(user);
@@ -134,6 +136,75 @@ public class PostService {
 		StringBuffer sql=new StringBuffer();
 		sql.append("select * from postlatest where rownum<");
 		sql.append(limit);
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	public ArrayList<Post> getPostsRankbyScorewithinRange(int start,int end){//TODO
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from postpopular where rownum>");
+		sql.append(start);
+		sql.append(" and rownum <");
+		sql.append(end);
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));				
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<Post> getPostsRankbyScoreforUserwithinRange(int start,int end,User user){//TODO
+		ArrayList<Post> list=getPostsRankbyScorewithinRange(start,end);
+		HashSet<Integer> followeelist=us.getFolloweeListAsUserIdList(user);
+		
+		for(Post p:list)
+		{
+			if(followeelist.contains(p.getUsrid()))
+				p.setScore(p.getScore()*followee_ratio);
+		}
+		Collections.sort(list);
+		return list;
+	}
+	
+	public ArrayList<Post> getPostsRankbyTimewithinRange(int start,int end){
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from postlatest where rownum>");
+		sql.append(start);
+		sql.append(" and rownum <");
+		sql.append(end);
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
 			while(set.next()){
@@ -214,17 +285,17 @@ public class PostService {
 		return us.getUserbyUsrid(post.getUsrid());
 	}
 	
-	public void Like(Post post)
-	{
-//		post.setLikecount(ls.getLikeCount(post));
-		updateScore(post);
-	}
-	
-	public void DisLike(Post post)
-	{
-//		post.setDisLikecount(ls.getLikeCount(post));
-		updateScore(post);
-	}
+//	public void Like(Post post)
+//	{
+////		post.setLikecount(ls.getLikeCount(post));
+//		updateScore(post);
+//	}
+//	
+//	public void DisLike(Post post)
+//	{
+////		post.setDisLikecount(ls.getLikeCount(post));
+//		updateScore(post);
+//	}
 	
 	
 	public int  updateScore(Post post)
