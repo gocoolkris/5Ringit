@@ -12,6 +12,19 @@
 				}
 				return false;
 			});
+
+			// view more link for user lists 
+			$('ul.user-list').each(function(index){
+				if ($(this).children().length > 10) {
+					$(this).after('<a class="view-all-user" href="">View all…</a>');
+				}
+			});
+
+			$("body").on("click", "a.view-all-user", function(){
+				$(this).prev("ul.user-list").removeClass("limited");
+				$(this).hide();
+				return false;
+			});
 		}
 
 		function vote(link) {
