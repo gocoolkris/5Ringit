@@ -40,6 +40,34 @@
 				max-height: 200px;
 				overflow: hidden;
 			}
+			.page-header {
+				padding-bottom: 0px;
+				border-bottom: 0px;
+			}
+			.color-bars {
+				padding-top: 10px;
+				width: 100%;
+			}
+			.color-bars div {
+				height: 4px;
+				float: left;
+				width: 20%;
+			}
+			.blue {
+				color: #0185c7;
+			}
+			.yellow {
+				color: #f4c33d;
+			}
+			.black {
+				color: #000000;
+			}
+			.green {
+				color: #009f3d;
+			}
+			.red {
+				color: #df0024;
+			}
 		</style>
 
 	</head>
@@ -123,7 +151,14 @@
 						Welcome, <a href="/user?username=$currentUser">$currentUser</a>! <a href="/logout">Log out</a>
 						#end
 					</div>
-					<div class="">
-          				<h1><a href="/index">5RingIt</a></h1>
+					<div>
+          				<h1><a href="/index">5RingIt</a><span class="blue">°</span><span class="yellow">°</span><span class="black">°</span><span class="green">°</span><span class="red">°</span></h1>
+          			</div>
+          			<div class="color-bars">
+          				<div style="background-color: #0185c7;"></div>
+          				<div style="background-color: #f4c33d;"></div>
+          				<div style="background-color: #000000;"></div>
+          				<div style="background-color: #009f3d;"></div>
+          				<div style="background-color: #df0024;"></div>
           			</div>
         	</div>
