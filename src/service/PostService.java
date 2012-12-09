@@ -340,22 +340,6 @@ public class PostService {
 		return Math.log10(z)+y*t/time_ratio;
 	}
 	
-	public int getTotalPostCount(){
-		StringBuffer sql=new StringBuffer();
-		sql.append("select count(*) as postcount from post");
-		int postcount=0;
-		try{
-			ResultSet set=DBUtil.executeQuery(sql.toString());
-			while(set.next()){
-				postcount=set.getInt("postcount");			
-				break;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		return postcount;
-	}
-	
 
 	
 	static Timestamp START_TIME=null;
