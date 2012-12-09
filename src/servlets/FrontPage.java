@@ -32,6 +32,15 @@ public class FrontPage extends VelocityServlet {
 		 String signup = request.getParameter("signup");
 		 
 		 String alertMessage = null;
+		 HttpSession session = request.getSession();
+		 String currentUser = null;
+		 
+		 
+		 if(!session.isNew() && session.getAttribute("username")!=null) {
+			 currentUser = (String) session.getAttribute(("username"));
+			 alertMessage = "Welcome back " + currentUser;
+		 }
+		 
 		 if(msg!=null&&msg.equals("unloggedin")) {
 			 alertMessage = "Please login first.Thanks";
 		 }
@@ -49,13 +58,9 @@ public class FrontPage extends VelocityServlet {
 				 alertMessage = "Please try again";
 			 }
 		 }
-		 HttpSession session = request.getSession();
-		 String currentUser = null;
 		 
-		 if(!session.isNew() && session.getAttribute("username")!=null) {
-			 currentUser = (String) session.getAttribute(("username"));
-			 alertMessage = "Welcome back " + currentUser;
-		 }
+		 
+		
 		 
 		 int pageNum = 1;
 		 if(request.getParameter("page")!=null) {
@@ -141,9 +146,16 @@ public class FrontPage extends VelocityServlet {
 		 }
 
 		int totalNumOfPages = entries.size()/numPostsPerPage;
-		int[] pages = new int[totalNumOfPages];
-		for(int i=1; i<=totalNumOfPages; i++) {
-			pages[i-1] = i;
+//		int[] pages = new int[totalNumOfPages];
+//		for(int i=1; i<=totalNumOfPages; i++) {
+//			pages[i-1] = i;
+//		}
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+		for(int i=pageNum-2; i<pageNum+3; i++) {
+			if(i>0 & i<totalNumOfPages) {
+				pages.add(i);
+			}
+	
 		}
 		
 		
@@ -155,7 +167,7 @@ public class FrontPage extends VelocityServlet {
 			userList = userService.getNewUsers(userListNum);
 		}else {
 			User user = userService.getUserbyUsername(currentUser);
-			//userList = userService.getRecommendedFriends(user);
+			userList = userService.recommendFollowees(user);
 		}
 		
 		

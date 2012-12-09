@@ -57,3 +57,5 @@ INSERT INTO POST VALUES(56,8141,'2008_Winter_Olympics','winter-olympics','http:/
 INSERT INTO POST VALUES(57,19933,'2012_Winter_Olympics','winter-olympics','http://en.wikipedia.org/wiki/2012_Winter_Olympics',current_timestamp,42.000000);
 INSERT INTO POST VALUES(58,7948,'2016_Winter_Olympics','winter-olympics','http://en.wikipedia.org/wiki/2016_Winter_Olympics',current_timestamp,46.000000);
 INSERT INTO POST VALUES(59,9229,'2020_Winter_Olympics','winter-olympics','http://en.wikipedia.org/wiki/2020_Winter_Olympics',current_timestamp,50.000000);
+
+

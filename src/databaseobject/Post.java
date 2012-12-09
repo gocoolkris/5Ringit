@@ -99,7 +99,7 @@ public class Post implements Serializable, Comparable{
 	
 	public int compareTo(Object p)
 	{
-		return (int) (score-((Post)p).getScore());
+		return -(int) (score-((Post)p).getScore());
 	}
 
 	

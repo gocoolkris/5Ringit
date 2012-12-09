@@ -23,7 +23,7 @@ import frontEndObject.AtheleteObject;;
 
 public class Profile extends VelocityServlet {
 	
-	private final int totalPosts = 30;
+	private final int totalPosts = 100;
 	private final int numPostsPerPage = 6;
 	private final int followingListLimit = 20;
 	
@@ -76,26 +76,27 @@ public class Profile extends VelocityServlet {
 		  
 		  ArrayList<AtheleteObject> athleteInfo = null;
 		  ArrayList<Post> posts = null;
-		  if(mode.equals("posts")) {
-			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
+		  if(mode == null || mode.equals("posts")) {
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName),totalPosts);
 		  }else if(mode.equals("likes")) {
-			  posts = ldService.getAllLikedPostforUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getAllLikedPostforUser(userService.getUserbyUsername(userName),totalPosts);
 		  }else if(mode.equals("dislikes")) {
-			  posts = ldService.getAllDisLikedPostforUser(userService.getUserbyUsername(userName));
+			  posts = ldService.getAllDisLikedPostforUser(userService.getUserbyUsername(userName),totalPosts);
 		  }else if(mode.equals("comments")) {
-			  posts = commentService.getAllCommentedPostforUser(userService.getUserbyUsername(userName));
+			  posts = commentService.getAllCommentedPostforUser(userService.getUserbyUsername(userName),totalPosts);
 		  }else if(mode.equals("attributes")) {
 			  athleteInfo = userService.getProfileInformation(userService.getUserbyUsername(userName));
 		  }
 		  else {
 			  System.out.println("mode = "+mode);
-			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName));
+			  posts = postService.getAllPostsforUser(userService.getUserbyUsername(userName),totalPosts);
 		  }
-		  		  
 		  
-		  ArrayList<Entry> entriesTmp = Entry.getEntries(posts);
-	   	  ArrayList<Entry> entries = new ArrayList<Entry>();
-	   	  
+		  ArrayList<Entry> entriesTmp = new ArrayList<Entry>();
+		  ArrayList<Entry> entries = new ArrayList<Entry>();
+		  if(posts!=null){
+			  entriesTmp = Entry.getEntries(posts);
+		  }
 	   	  for(int i = 0; i< entriesTmp.size(); i++) {
 	   		  Entry e = entriesTmp.get(i);
 	   		  String postIDVote = (String)session.getAttribute(Integer.toString(e.getId()));
@@ -112,7 +113,7 @@ public class Profile extends VelocityServlet {
 			   }
 			   entries.add(e);
 	   	  }	
-		 
+		  
 		  
 		//create fake entries object
 		 //ArrayList<Post> posts = new ArrayList<Post>();
@@ -135,16 +136,25 @@ public class Profile extends VelocityServlet {
 
 		int totalNumOfPages = entries.size()/numPostsPerPage;
 		
-		int[] pages = new int[totalNumOfPages];
-		for(int i=1; i<=totalNumOfPages; i++) {
-			pages[i-1] = i;
-		}
-		/**
-		 ArrayList<User> followingList = userService.getFollowingList(userName);
-		 ArrayList<User> followerList = userService.getFolloweeList(userService.getUserbyUsername(userName));
-		 */
-		 
+//		int[] pages = new int[totalNumOfPages];
+//		for(int i=1; i<=totalNumOfPages; i++) {
+//			pages[i-1] = i;
+//		}
 		
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+		for(int i=pageNum-2; i<pageNum+3; i++) {
+			if(i>0 & i<totalNumOfPages) {
+				pages.add(i);
+			}
+	
+		}
+		
+		
+		 ArrayList<User> followeeList = fservice.getFolloweeList(userService.getUserbyUsername(userName));
+		 ArrayList<User> followerList = fservice.getFollowerList(userService.getUserbyUsername(userName));
+		 
+		 
+		/*
 		//faking followingList
 		ArrayList<User> followingList = new ArrayList<User>();
 		ArrayList<User> followerList = new ArrayList<User>();
@@ -155,7 +165,7 @@ public class Profile extends VelocityServlet {
 			followerList.add(follower);
 		}
 		//end
-
+		*/
 		
 		 	Template template = null;
 			
@@ -167,7 +177,7 @@ public class Profile extends VelocityServlet {
 					context.put("currentPage", pageNum);
 					context.put("pages", pages);
 					context.put("totalPages", totalNumOfPages);
-					context.put("followingList", followingList);
+					context.put("followingList", followeeList);
 					context.put("entries", entriesPage);
 					context.put("followerList", followerList);
 					context.put("attributes", athleteInfo);

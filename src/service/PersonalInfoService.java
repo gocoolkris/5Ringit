@@ -58,8 +58,18 @@ public class PersonalInfoService {
 	
 	public ArrayList<Integer> getPeopleInfoFromSameCountry(PersonalInfo pi){
 		
-		String query = "SELECT * FROM ATHELETEPERSONALINFO WHERE COUNTRY LIKE '%" + pi.getCountry() + "%'" +
-				"AND USRID<>" + pi.getUsrid();
+		ArrayList<Integer> alreadyFollowing = new FollowerService().getFollowees(pi.getUsrid());
+		
+		StringBuffer followees = new StringBuffer();
+		followees.append(pi.getUsrid());
+		for(int fid : alreadyFollowing){
+			followees.append(",");
+			followees.append(fid);
+		}
+		String followingUsrIds = followees.toString();
+		
+		String query = "SELECT USRID FROM ATHELETEPERSONALINFO WHERE COUNTRY = '" + pi.getCountry() + "'" +
+				"AND USRID NOT IN (" + followingUsrIds + ") AND ROWNUM <= 10";
 		PersonalInfo ps = null;
 		ArrayList<Integer> countryAtheletes = new ArrayList<Integer>();
 

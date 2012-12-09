@@ -27,7 +27,7 @@ public class Entry {
 			int commentCount, int likeCount){
 		//this.id = id;
 		this.title=title;
-		this.desc=desc;
+		this.desc = desc;
 		this.link=url;
 		this.author = author;
 		this.postedTime = postedTime;
@@ -44,7 +44,13 @@ public class Entry {
 		this.link= post.getLink();
 		this.id = post.getPid();
 		this.postedTime = post.getTime().getTime();
-		
+		LikeDislikeService lds = new LikeDislikeService();
+		CommentService cs = new CommentService();
+		UserService us = new UserService();
+		this.setLikeCount(lds.getLikeCount(post));
+		this.setDislikeCount(lds.getDisLikeCount(post));
+		this.setCommentCount(cs.getCommentsCountForPost(post));
+		this.setAuthor(us.getUserbyUsrid(post.getUsrid()).getUsername());
 	}
 	
     public static ArrayList<Entry> getEntries(ArrayList<Post> posts) {
@@ -57,9 +63,9 @@ public class Entry {
 		for(int i=0; i<posts.size(); i++) {
 			Entry entry = new Entry(posts.get(i));
 			entry.setAuthor(userService.getUserbyUsrid((posts.get(i).getUsrid())).getUsername());
-			//entry.setDislikeCount(ldService.getDislikeCount(posts.get(i)));
-			//entry.setLikeCount(ldService.getLikeCount(posts.get(i)));
-			//entry.setCommentCount(commentService.getCommentCount(posts.get(i)));
+			entry.setDislikeCount(ldService.getDisLikeCount(posts.get(i)));
+			entry.setLikeCount(ldService.getLikeCount(posts.get(i)));
+			entry.setCommentCount(commentService.getCommentsCountForPost(posts.get(i)));
 			entries.add(entry);
 		}
 		
@@ -121,6 +127,7 @@ public class Entry {
 	}
 
 	public String getDesc() {
+		if(desc == null) return "";
 		return desc;
 	}
 	public void setDesc(String desc) {

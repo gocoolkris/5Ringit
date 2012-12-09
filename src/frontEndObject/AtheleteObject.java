@@ -10,11 +10,11 @@ public class AtheleteObject {
 	}
 	
 	
-	public String getAttributeName(){
+	public String getKey(){
 		return attName;
 	}
 	
-	public String getAttributeValue(){
+	public String getValue(){
 		
 		return attValue;
 	}

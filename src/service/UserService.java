@@ -21,7 +21,7 @@ public class UserService {
 	public ArrayList<User> getNewUsers(int num){
 		
 		ArrayList<User> newUsers = new ArrayList<User>();
-		String query = "SELECT * FROM USERLIST WHERE ROWNUM <= %d ORDERY BY USRID DESC";
+		String query = "SELECT * FROM USERLIST WHERE ROWNUM <= %d ORDER BY USRID DESC";
 		ResultSet rs = DBUtil.executeQuery(String.format(query,num));
 		try{
 			User usr;
@@ -45,7 +45,7 @@ public class UserService {
 			int usrid = getNewUsrId();
 			if(usrid == -1) return false;  //sanity check;
 			
-			String queryTemplate = "INSERT INTO USERLIST VALUES(%d,'%s','%s');";
+			String queryTemplate = "INSERT INTO USERLIST VALUES(%d,'%s','%s')";
 			String query = String.format(queryTemplate, usrid, username,password);
 			DBUtil.executeQuery(query);
 
@@ -59,11 +59,11 @@ public class UserService {
 	private int getNewUsrId() throws Exception{
 
 		int newUsrid = -1;
-		String getCount = "SELECT UID FROM USERLIST ORDER BY UID DESC;";
+		String getCount = "SELECT MAX(USRID) as MUID FROM USERLIST";
 		ResultSet rs = DBUtil.executeQuery(getCount);
 		try{
 			while(rs.next()){
-				newUsrid = rs.getInt("UID") + 1;
+				newUsrid = rs.getInt("MUID") + 1;
 				break;
 			}
 			return newUsrid;
@@ -97,27 +97,7 @@ public class UserService {
 		return null;
 	}
 
-	public ArrayList<User> getFollowingList(String username){
-		
-		ArrayList<User> followingList = new ArrayList<User>();
-
-		int usrid = getUserbyUsername(username).getUsrId();
-
-		String query = "SELECT FOLLOWERID FROM FOLLOWERLIST WHERE FOLLOWEEID=%d";
-
-		ResultSet rs = DBUtil.executeQuery(String.format(query, usrid));
-		try{
-			User usr;
-			while(rs.next()){
-				int fid = rs.getInt("FOLLOWERID");
-				usr = getUserbyUsrid(fid);
-				followingList.add(usr);
-			}
-			return followingList;
-		}
-		catch(Exception e){}
-		return null;
-	}
+	
 
 
 	public HashSet<Integer> getFolloweeListAsUserIdList(User user){
@@ -135,26 +115,6 @@ public class UserService {
 		return null;
 	}
 
-	public ArrayList<User> getFolloweeList(User user){
-		ArrayList<User> followeesList = new ArrayList<User>();
-
-		int usrid = getUserbyUsername(user.getUsername()).getUsrId();
-
-		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
-
-		ResultSet rs = DBUtil.executeQuery(String.format(query, usrid));
-		try{
-			User usr;
-			while(rs.next()){
-				int fid = rs.getInt("FOLLOWEEID");
-				usr = getUserbyUsrid(fid);
-				followeesList.add(usr);
-			}
-			return followeesList;
-		}
-		catch(Exception e){}
-		return null;
-	}
 	
 
 	public User getUserbyUsrid(int usrid) {
@@ -166,7 +126,7 @@ public class UserService {
 			while(rs.next()){
 				usr.setUsrId(rs.getInt("usrid"));
 				usr.setUsername(rs.getString("uname"));
-				usr.setPassword("passwd");
+				usr.setPassword(rs.getString("passwrd"));
 				break;
 			}
 			return usr;
@@ -185,7 +145,8 @@ public class UserService {
 	 */
 	public ArrayList<User> recommendFollowees(User user){
 		
-		return recommendCountryAtheletes(user);
+		ArrayList<User> followees =  recommendCountryAtheletes(user);
+		return followees;
 	}
 	
 	
@@ -206,16 +167,11 @@ public class UserService {
 		PersonalInfo pi = pis.getPersonalInfobyUsrid(user.getUsrId());
 		ArrayList<Integer> UsrIdsOfCountryAtheletes = pis.getPeopleInfoFromSameCountry(pi);
 		ArrayList<User> followees = new ArrayList<User>();
-		int count = 0;
 		
 		for(int i = 0; i < UsrIdsOfCountryAtheletes.size();++i){
 			int fid = UsrIdsOfCountryAtheletes.get(i);
 			User followee = this.getUserbyUsrid(fid);
-			if(count == 10) break;
-			if(!follow(user, followee)){
-				followees.add(followee);
-				count++;
-			}
+			followees.add(followee);
 		}
 		return followees;
 	}

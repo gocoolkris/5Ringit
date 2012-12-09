@@ -45,12 +45,14 @@ public class PublishPost extends VelocityServlet{
 				Entry newEntry = new Entry(newPost);
 				PostService postService = new PostService();
 				
-				postService.save(newPost);
+				int newpid=postService.saveandReturnPid(newPost);
+				
+				
 				System.out.println(newEntryTitle + " saved");
 				
-				context.put("entry", newEntry);
-				template = Velocity.getTemplate("entry.html");
-				
+				//context.put("entry", newEntry);
+				//template = Velocity.getTemplate("entry.html");
+				response.sendRedirect("/entry?postID="+newpid);
 				
 			} catch( Exception e ) {
 				 System.err.println("Exception caught: " + e.getMessage());

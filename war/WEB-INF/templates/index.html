@@ -22,16 +22,13 @@
 						<ul>
 							#set( $prevPage = $currentPage - 1 )
 							#set( $nextPage = $currentPage + 1 )
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=1#end">First</a></li>
 							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage#end">«</a></li>
 							#foreach( $page in $pages )
-							#if( $page == 0)
-							<li class="disabled"><a>…</a></li>
-							#else
 							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
 							#end
-							#end
 							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage#end">»</a></li>
-							
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$totalPages#end">Last</a></li>
 						</ul>
 					</div>
 				</div>
@@ -65,7 +62,7 @@
 					</ul>
 					#end
 					
-					<ul class="unstyled">
+					<ul class="unstyled user-list limited">
 						#foreach( $user in $userList)
 						<li><i class="icon-user"></i> <a href="/user?username=$user.getUsername()">$user.getUsername()</a></li>
 						#end

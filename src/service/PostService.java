@@ -18,6 +18,7 @@ import db.DBUtil;
 
 public class PostService {
 	public int save(Post post){
+		
 		StringBuffer sql=new StringBuffer();
 		sql.append("insert into post (pid,usrid,title,description,lnk,posttime,score)");
 		int newpid=DBUtil.getPostMaxId()+1;
@@ -28,6 +29,11 @@ public class PostService {
 		sql.append("'"+post.getLink()+"',");
 		sql.append("current_timestamp,0)");
 		return DBUtil.executeUpdateInsertDelete(sql.toString());
+	}
+	
+	public int saveandReturnPid(Post post){
+		save(post);
+		return DBUtil.getPostMaxId();
 	}
 	
 	
@@ -173,6 +179,37 @@ public class PostService {
 		return list;
 	}
 	
+	public ArrayList<Post> getAllPostsforUser(User user, int limit)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where usrid=");
+		sql.append(user.getUsrId());
+		sql.append(" AND ROWNUM <= ");
+		sql.append(limit);
+		sql.append(" ORDER BY SCORE DESC");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
 	public User getUserByPost(Post post){
 		return us.getUserbyUsrid(post.getUsrid());
 	}
@@ -219,7 +256,7 @@ public class PostService {
 	
 	static Timestamp START_TIME=null;
 	static int time_ratio=45000;
-	static float followee_ratio=1.5f;
+	static float followee_ratio=10f;
 	UserService us;
 	LikeDislikeService ls;
 	

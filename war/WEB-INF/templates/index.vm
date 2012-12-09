@@ -1,0 +1,72 @@
+#parse( "head.html" )		
+			<div class="row">
+				<div id="entry-list" class="span8">
+					<ul class="nav nav-tabs">
+						<li class="#if ($order == "latest")active#end">
+							<a href="/index">Latest</a>
+						</li>
+						<li class="#if ($order == "popular")active#end">
+							<a href="/index?order=popular">Popular</a>
+						</li>
+					</ul>
+					#foreach( $entry in $entries )
+					<div class="entry">
+						<h4 class="entry-title"><a href="$entry.getLink()">$entry.getTitle()</a></h4>
+						<div class="entry-body">
+							$entry.getDesc()
+						</div>
+						<div class="entry-meta">Submited by <a href="/user/$entry.getAuthor()">$entry.getAuthor()</a> $entry.getRalativePostedTime() · <a href="/entry/$entry.getId()\#comment">Comment</a> ($entry.getCommentCount()) · <a href="\#">Like</a> ($entry.getLikeCount())</div>
+					</div>
+					#end
+					<div class="pagination">
+						<ul>
+							#set( $prevPage = $currentPage - 1 )
+							#set( $nextPage = $currentPage + 1 )
+							<li class="#if ($currentPage == 1)disabled#end"><a href="#if ($currentPage > 1)?page=$prevPage#end"></a></li>
+							#foreach( $page in $pages )
+							<li class="#if ($page == $currentPage)active#end"><a href="?page=$page">$page</a></li>
+							#end
+							<li class="#if ($currentPage == $totalPages)disabled#end"><a href="#if ($currentPage < $totalPages)?page=$nextPage#end"></a></li>
+							
+						</ul>
+					</div>
+				</div>
+
+				<div id="side-bar" class="span4">
+					#if($currentUser)
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">Submit a link</a>
+						</li>
+					</ul>
+					<div class="well">
+						<!-- <legend>Submit a link</legend> -->
+						<form name="form-submitlink" action="/submitlink" method="post" style="margin-bottom: 0;">
+							<input name="new-entry-title"class="input-block-level" type="text" placeholder="Title">
+							<input name="new-entry-url"class="input-block-level" type="text" placeholder="URL">
+							<textarea name="new-post-description" class="input-block-level" rows="3" placeholder="Description" style="resize:vertical;"></textarea>
+							<button type="submit" class="btn btn-info">Submit</button>
+						</form>
+					</div>
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">Recommended Users</a>
+						</li>
+					</ul>
+					#else
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="">New Users</a>
+						</li>
+					</ul>
+					#end
+					
+					<ul class="unstyled">
+						#foreach( $user in $userList)
+						<li><i class="icon-user"></i> <a href="/user/$user.getUserName()">$user.getUserName()</a></li>
+						#end
+					</ul>
+				
+				</div>
+			</div>
+#parse( "tail.html" )

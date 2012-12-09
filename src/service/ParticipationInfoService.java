@@ -28,11 +28,9 @@ public class ParticipationInfoService {
 				partInfo.setTeam(rs.getString("TEAM"));
 				partInfo.setRnk(rs.getString("RNK"));
 				partInfo.setMedalswon(rs.getString("MEDALSWON"));
-				
-				
+				ptcp_info.add(partInfo);
 			}
-			
-			
+			return ptcp_info;
 		}
 		catch(Exception e){}
 		

@@ -12,9 +12,9 @@ public class CommentService {
 
 	public boolean saveComment(Comment comment){
 		
-		String query = "INSERT INTO COMMENTS VALUES(%d,%d,current_timestamp,'%s');\n";
+		String query = "INSERT INTO COMMENTS VALUES(%d,%d,%d,current_timestamp,'%s')";
 		try{
-			DBUtil.executeQuery(String.format(query,comment.getUsrid(),comment.getPid(),comment.getContent()));
+			DBUtil.executeQuery(String.format(query,getNextCid(), comment.getUsrid(),comment.getPid(),comment.getContent()));
 			return true;
 		}
 		catch(Exception e){
@@ -22,6 +22,26 @@ public class CommentService {
 		}
 		
 	}
+	
+	public int getNextCid(){
+		
+		String query = "SELECT MAX(CID) AS MCID FROM COMMENTS";
+		try{
+			int cid = Integer.MIN_VALUE;
+			ResultSet rs = DBUtil.executeQuery(query);
+			while(rs.next()){
+				cid = rs.getInt("MCID");
+				break;
+			}
+			return cid + 1;
+		}
+		catch(Exception e){
+			return 1;
+		}
+	}
+	
+	
+	
 	/*
 	public boolean deleteComment(Comment comment){
 		
@@ -47,7 +67,7 @@ public class CommentService {
 				c.setUsrid(rs.getInt("USRID"));
 				c.setPid(rs.getInt("PID"));
 				c.setPosttime(rs.getTimestamp("POSTTIME"));
-				c.setContent("CONTENT");
+				c.setContent(rs.getString("CONTENT"));
 				comments.add(c);
 			}
 			
@@ -64,7 +84,7 @@ public class CommentService {
 	
 	public ArrayList<Comment> getAllCommentsForPost(Post post){
 		
-		String query = "SELECT * FROM COMMENTS WHERE PID=%d;";
+		String query = "SELECT * FROM COMMENTS WHERE PID=%d";
 		ResultSet rs = DBUtil.executeQuery(String.format(query,post.getPid()));
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		try{
@@ -74,7 +94,7 @@ public class CommentService {
 				c.setUsrid(rs.getInt("USRID"));
 				c.setPid(rs.getInt("PID"));
 				c.setPosttime(rs.getTimestamp("POSTTIME"));
-				c.setContent("CONTENT");
+				c.setContent(rs.getString("CONTENT"));
 				comments.add(c);
 			}
 			
@@ -91,7 +111,7 @@ public class CommentService {
 	
 	public ArrayList<Comment> getCommentsForUser(User user){
 		
-		String query = "SELECT * FROM COMMENTS WHERE USRID=%d;";
+		String query = "SELECT * FROM COMMENTS WHERE USRID=%d";
 		ResultSet rs = DBUtil.executeQuery(String.format(query,user.getUsrId()));
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		try{
@@ -179,5 +199,34 @@ public class CommentService {
 		return list;
 	}
 	
+	public ArrayList<Post> getAllCommentedPostforUser(User user, int limit)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where pid in(");
+		sql.append("select pid from comments where usrid=");
+		sql.append(user.getUsrId());
+		sql.append(") ");
+		sql.append("and rownum <= ");
+		sql.append(limit);
+		sql.append(" ORDER BY SCORE DESC");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
 	
 }

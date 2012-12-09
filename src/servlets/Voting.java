@@ -27,7 +27,7 @@ public class Voting extends HttpServlet  {
 		
 		System.out.println("voting:" + username);
 		
-		boolean success =false;;
+		boolean success =false;
 		
 		if(username!=null) {
 			LikeDislikeService ldService = new LikeDislikeService();
@@ -41,11 +41,13 @@ public class Voting extends HttpServlet  {
 
 			if(vote.equals("like")) {
 				success = ldService.Like(ps.getPostById(Integer.parseInt(postID)), userService.getUserbyUsername(username));
+				ps.updateScore(ps.getPostById(Integer.parseInt(postID)));
 				System.out.println(username + " like post: " + postID);
 				session.setAttribute(postID, "like");
 
 			}else if(vote.equals("dislike")) {
 				success = ldService.DisLike(ps.getPostById(Integer.parseInt(postID)), userService.getUserbyUsername(username));
+				ps.updateScore(ps.getPostById(Integer.parseInt(postID)));
 				System.out.println(username + " dislike post: " + postID);
 				session.setAttribute(postID, "dislike");
 			}

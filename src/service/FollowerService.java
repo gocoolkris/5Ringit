@@ -1,5 +1,6 @@
 package service;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import databaseobject.User;
@@ -10,9 +11,9 @@ public class FollowerService {
 	
 	public boolean follow(User follower, User followee){
 	
-		String query = "INSERT INTO FOLLOWERLIST VALUES(%d,%d);";
+		String query = "INSERT INTO FOLLOWERLIST VALUES(%d,%d)";
 		try{
-			DBUtil.executeQuery(String.format(query,follower.getUsrId(), followee.getUsrId()));
+			DBUtil.executeUpdateInsertDelete(String.format(query,follower.getUsrId(), followee.getUsrId()));
 			return true;
 		}
 		catch(Exception e){}
@@ -20,9 +21,9 @@ public class FollowerService {
 	}
 	
 	public boolean unfollow(User follower, User followee){
-		String query = "DELETE FROM FOLLOWERLIST WHERE FOLLOWERID=%d AND FOLLOWEEID = %d;";
+		String query = "DELETE FROM FOLLOWERLIST WHERE FOLLOWERID=%d AND FOLLOWEEID = %d";
 		try{
-			DBUtil.executeQuery(String.format(query,follower.getUsrId(), followee.getUsrId()));
+			DBUtil.executeUpdateInsertDelete(String.format(query,follower.getUsrId(), followee.getUsrId()));
 			return true;
 		}
 		catch(Exception e){}
@@ -47,13 +48,13 @@ public class FollowerService {
 	}
 	
 	public ArrayList<Integer> getFollowees(User follower){
-		String query = "SELECT FOLLOWERID FROM FOLLOWERLIST WHERE FOLLOWEEID=%d";
+		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
 		try{
 			
 			ResultSet rs = DBUtil.executeQuery(String.format(query, follower.getUsrId()));
 			ArrayList<Integer> followees = new ArrayList<Integer>();
 			while(rs.next()){
-				int fid = rs.getInt("FOLLOWERID");
+				int fid = rs.getInt("FOLLOWEEID");
 				followees.add(fid);
 			}
 			return followees;
@@ -61,11 +62,82 @@ public class FollowerService {
 		catch(Exception e){}
 		return null;
 	}
+public ArrayList<User> getFollowerList(User user){
+		
+		ArrayList<User> followingList = new ArrayList<User>();
+
+		int usrid = us.getUserbyUsername(user.getUsername()).getUsrId();
+
+		String query = "SELECT  * FROM USERLIST WHERE USRID IN(SELECT FOLLOWERID FROM FOLLOWERLIST WHERE FOLLOWEEID=%d)";
+
+		ResultSet rs = DBUtil.executeQuery(String.format(query, usrid));
+		try{
+			while(rs.next()){
+				User usr=new User();
+				usr.setUsrId(rs.getInt("usrid"));
+				usr.setUsername(rs.getString("uname"));
+				usr.setPassword(rs.getString("passwrd"));
+				followingList.add(usr);
+			}
+			return followingList;
+		}
+		catch(Exception e){}
+		return null;
+	}
+
+	
+	public ArrayList<User> getFolloweeList(User user){
+		ArrayList<User> followeesList = new ArrayList<User>();
+
+		int usrid = us.getUserbyUsername(user.getUsername()).getUsrId();
+
+		String query = "SELECT  * FROM USERLIST WHERE USRID IN(SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d)";
+
+		ResultSet rs = DBUtil.executeQuery(String.format(query, usrid));
+
+		try{
+			
+			while(rs.next()){
+				User usr=new User();
+				usr.setUsrId(rs.getInt("usrid"));
+				usr.setUsername(rs.getString("uname"));
+				usr.setPassword(rs.getString("passwrd"));
+				followeesList.add(usr);
+			}
+			return followeesList;
+		}
+		catch(Exception e){}
+		return null;
+		
+		
+		
+	}
+	
+	
+	
+	
+	public ArrayList<Integer> getFollowees(int followerid){
+		
+		String query = "SELECT FOLLOWEEID FROM FOLLOWERLIST WHERE FOLLOWERID=%d";
+		try{
+			
+			ResultSet rs = DBUtil.executeQuery(String.format(query, followerid));
+			ArrayList<Integer> followees = new ArrayList<Integer>();
+			while(rs.next()){
+				int fid = rs.getInt("FOLLOWEEID");
+				followees.add(fid);
+			}
+			return followees;
+		}
+		catch(Exception e){}
+		return null;
+		
+	}
 	
 	
 	public boolean isfollowing(User follower, User followee){
 		
-		String query = "SELECT COUNT(*) AS CNT FROM FOLLOWERLIST WHERE FOLLOWER=%d AND FOLLOWEE=%d";
+		String query = "SELECT COUNT(*) AS CNT FROM FOLLOWERLIST WHERE FOLLOWERID=%d AND FOLLOWEEID=%d";
 		try{
 			ResultSet rs = DBUtil.executeQuery(String.format(query,follower.getUsrId(),followee.getUsrId()));
 			while(rs.next()){
@@ -77,4 +149,5 @@ public class FollowerService {
 		catch(Exception e){}
 		return false;
 	}
+	UserService us=new UserService();
 }

@@ -48,7 +48,7 @@ public class CommentEntry {
 	
 	public CommentEntry(Comment comment) {
 		UserService userService = new UserService();
-
+		System.out.println("$$$" + comment.getContent());
 		 this.author = userService.getUserbyUsrid(comment.getUsrid()).getUsername();	  	
 		 this.content = comment.getContent();
 		this.postedTime = comment.getPosttime().getTime();

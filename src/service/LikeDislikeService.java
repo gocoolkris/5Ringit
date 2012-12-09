@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import databaseobject.Post;
@@ -82,9 +83,10 @@ public class LikeDislikeService {
 	public int getLikeCount(Post post)
 	{
 		StringBuffer sql=new StringBuffer();
-		sql.append("select count(*) as likecount from postlike where pid=");
+//		sql.append("select count(*) as likecount from postlike where pid=");
+		sql.append("select likecount from postpopular where pid=");
 		sql.append(post.getPid());
-		sql.append("group by pid");
+//		sql.append(" group by pid");
 		int likecount=0;
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
@@ -103,7 +105,7 @@ public class LikeDislikeService {
 		StringBuffer sql=new StringBuffer();
 		sql.append("select count(*) as dislikecount from postdislike where pid=");
 		sql.append(post.getPid());
-		sql.append("group by pid");
+		sql.append(" group by pid");
 		int dislikecount=0;
 		try{
 			ResultSet set=DBUtil.executeQuery(sql.toString());
@@ -184,6 +186,39 @@ public class LikeDislikeService {
 		return list;
 	}
 	
+	public ArrayList<Post> getAllLikedPostforUser(User user, int limit)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where pid in(");
+		sql.append("select pid from postlike where usrid=");
+		sql.append(user.getUsrId());
+		sql.append(") ");
+		sql.append("and rownum <=");
+		sql.append(limit);
+		sql.append(" ORDER BY SCORE DESC");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
 	public ArrayList<Post> getAllDisLikedPostforUser(User user)
 	{
 		ArrayList<Post> list=new ArrayList<Post>();
@@ -211,5 +246,36 @@ public class LikeDislikeService {
 		return list;
 	}
 	
+	
+	
+	public ArrayList<Post> getAllDisLikedPostforUser(User user, int limit)
+	{
+		ArrayList<Post> list=new ArrayList<Post>();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from post where pid in(");
+		sql.append("select pid from postdislike where usrid=");
+		sql.append(user.getUsrId());
+		sql.append(") ");
+		sql.append("and rownum <=");
+		sql.append(limit);
+		sql.append(" ORDER BY SCORE DESC");
+		try{
+			ResultSet set=DBUtil.executeQuery(sql.toString());
+			while(set.next()){
+				Post post=new Post();
+				post.setPid(set.getInt("pid"));
+				post.setUsrid(set.getInt("usrid"));
+				post.setTitle(set.getString("title"));
+				post.setDesc(set.getString("description"));
+				post.setLink(set.getString("lnk"));
+				post.setTime(set.getTimestamp("posttime"));
+				post.setScore(set.getFloat("score"));		
+				list.add(post);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return list;
+	}
 }
 
